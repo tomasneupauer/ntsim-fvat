@@ -126,7 +126,7 @@
 - Inputs:
   - D - Input byte
   - E - Enable control
-  - R - Reset control ( 0-Reset 1-Working )
+  - R - Reset control
 - Outputs:
   - Q - Stored byte
 - Function:
@@ -139,7 +139,7 @@
 - Inputs:
   - D - Input byte
   - C - Clock control
-  - R - Reset control ( 0-Reset 1-Working )
+  - R - Reset control
 - Outputs:
   - Q - Stored byte
 - Function:

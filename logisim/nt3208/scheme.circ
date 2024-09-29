@@ -297,7 +297,7 @@
     <comp lib="0" loc="(280,290)" name="Pin">
       <a name="width" val="8"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="OP"/>
+      <a name="label" val="O"/>
       <a name="labelloc" val="west"/>
     </comp>
     <comp lib="0" loc="(420,490)" name="Probe">
@@ -613,7 +613,7 @@
     <comp lib="0" loc="(200,200)" name="Pin">
       <a name="width" val="8"/>
       <a name="tristate" val="false"/>
-      <a name="label" val="OP"/>
+      <a name="label" val="O"/>
       <a name="labelloc" val="west"/>
     </comp>
     <comp lib="8" loc="(680,360)" name="D-Latch">
