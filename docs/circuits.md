@@ -29,7 +29,7 @@
 ## General Purpose Registers
 - Description:
   - Contains 8 general purpose registers
-  - Register F is reserved for flags
+  - Register F is reserved for storing flags
   - Registers G and H are reserved for outputing to address bus
 - Inputs:
   - D - Input byte
