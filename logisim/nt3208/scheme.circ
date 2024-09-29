@@ -47,6 +47,7 @@
       <a name="valign" val="base"/>
     </tool>
   </lib>
+  <lib desc="file#components.circ" name="8"/>
   <main name="main"/>
   <options>
     <a name="gateUndefined" val="ignore"/>
@@ -86,5 +87,55 @@
     <a name="clabelup" val="east"/>
     <a name="clabelfont" val="Dialog plain 12"/>
     <a name="clabelcolor" val="#000000"/>
+  </circuit>
+  <circuit name="Arithmetic Logic Unit">
+    <a name="circuit" val="Arithmetic Logic Unit"/>
+    <a name="clabel" val=""/>
+    <a name="clabelup" val="east"/>
+    <a name="clabelfont" val="Dialog plain 12"/>
+    <a name="clabelcolor" val="#000000"/>
+    <wire from="(180,60)" to="(180,270)"/>
+    <wire from="(170,270)" to="(180,270)"/>
+    <wire from="(170,230)" to="(190,230)"/>
+    <wire from="(170,310)" to="(190,310)"/>
+    <wire from="(170,290)" to="(290,290)"/>
+    <wire from="(220,240)" to="(230,240)"/>
+    <wire from="(230,300)" to="(240,300)"/>
+    <wire from="(230,240)" to="(230,300)"/>
+    <wire from="(220,320)" to="(240,320)"/>
+    <wire from="(270,310)" to="(280,310)"/>
+    <wire from="(170,350)" to="(270,350)"/>
+    <wire from="(170,370)" to="(260,370)"/>
+    <wire from="(170,390)" to="(250,390)"/>
+    <wire from="(280,310)" to="(280,410)"/>
+    <wire from="(250,390)" to="(250,410)"/>
+    <wire from="(270,350)" to="(270,410)"/>
+    <wire from="(260,370)" to="(260,410)"/>
+    <wire from="(110,250)" to="(190,250)"/>
+    <wire from="(110,330)" to="(190,330)"/>
+    <wire from="(290,430)" to="(320,430)"/>
+    <wire from="(170,70)" to="(190,70)"/>
+    <comp lib="8" loc="(170,210)" name="RightShift"/>
+    <comp lib="1" loc="(270,310)" name="OR Gate"/>
+    <comp lib="8" loc="(170,120)" name="Or"/>
+    <comp lib="1" loc="(220,240)" name="AND Gate"/>
+    <comp lib="0" loc="(290,430)" name="Splitter">
+      <a name="facing" val="north"/>
+      <a name="fanout" val="5"/>
+      <a name="incoming" val="8"/>
+      <a name="bit5" val="4"/>
+      <a name="bit6" val="4"/>
+      <a name="bit7" val="4"/>
+    </comp>
+    <comp lib="0" loc="(240,410)" name="Constant">
+      <a name="facing" val="south"/>
+      <a name="width" val="4"/>
+      <a name="value" val="0x0"/>
+    </comp>
+    <comp lib="1" loc="(220,320)" name="AND Gate"/>
+    <comp lib="8" loc="(170,70)" name="And"/>
+    <comp lib="8" loc="(170,350)" name="Comparator"/>
+    <comp lib="8" loc="(170,270)" name="AdcSbb"/>
+    <comp lib="8" loc="(170,170)" name="Nor"/>
   </circuit>
 </project>
