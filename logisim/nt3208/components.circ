@@ -1511,7 +1511,7 @@
     <comp lib="1" loc="(600,340)" name="XOR Gate"/>
     <comp lib="0" loc="(540,20)" name="Pin">
       <a name="tristate" val="false"/>
-      <a name="label" val="A/S"/>
+      <a name="label" val="M"/>
       <a name="labelloc" val="west"/>
     </comp>
     <comp lib="1" loc="(760,320)" name="OR Gate"/>
@@ -1523,13 +1523,13 @@
     <comp lib="1" loc="(720,760)" name="AND Gate"/>
     <comp lib="0" loc="(650,20)" name="Pin">
       <a name="tristate" val="false"/>
-      <a name="label" val="Ci"/>
+      <a name="label" val="i"/>
       <a name="labelloc" val="west"/>
     </comp>
     <comp lib="0" loc="(770,770)" name="Pin">
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
-      <a name="label" val="Co"/>
+      <a name="label" val="o"/>
       <a name="labelloc" val="east"/>
     </comp>
     <comp lib="1" loc="(650,480)" name="AND Gate"/>

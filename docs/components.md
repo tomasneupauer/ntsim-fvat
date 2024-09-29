@@ -2,7 +2,7 @@
 
 ## BitAnd
 - Description:
-  - Performs bitwise AND on a pair of bytes
+  - Performs a bitwise AND on a pair of bytes
 - Inputs:
   - A - Input byte A
   - B - Input byte B
@@ -13,7 +13,7 @@
 
 ## BitOr
 - Description:
-  - Performs bitwise OR on a pair of bytes
+  - Performs a bitwise OR on a pair of bytes
 - Inputs:
   - A - Input byte A
   - B - Input byte B
@@ -24,7 +24,7 @@
 
 ## BitNor
 - Description:
-  - Performs bitwise NOR on a pair of bytes
+  - Performs a bitwise NOR on a pair of bytes
 - Inputs:
   - A - Input byte A
   - B - Input byte B
@@ -35,7 +35,7 @@
 
 ## RightShift 
 - Description:
-  - Shifts given byte to the right
+  - Shifts a given byte to the right
   - MSB is set to Carry in
   - LSB is sent to Carry out
 - Inputs:
@@ -50,18 +50,18 @@
 
 ## Decoder
 - Description:
-  - Decodes 3-bit code to 8 signals
+  - Decodes a 3-bit code to an 8-bit signal
 - Inputs:
   - C - Input 3-bit code
   - E - Enable control
 - Outputs:
-  - D - Decoded signals
+  - D - Decoded 8-bit signal
 - Function:
-  - `2 ** C - > D`
+  - `2 ** C -> D`
 
 ## HalfAdder
 - Description:
-  - Adds Carry in to given byte
+  - Adds Carry in to a given byte
   - Overflow is sent to Carry out
 - Inputs:
   - A - Input byte
@@ -71,44 +71,77 @@
   - o - Carry out
 - Function:
   - `A + i -> S`
-  - `( A + i ) > 255 -> o`
+  - `S > 255 -> o`
 
 ## IncDec
 - Description:
-  - Increments or decrements given byte
+  - Increments or decrements a given byte
   - Overflow is sent to Carry out
 - Inputs:
   - A - Input byte
-  - M - Mode control (0-Inc 1-Dec)
+  - M - Mode control ( 0-Inc 1-Dec )
 - Outputs:
   - S - Result byte
   - o - Carry out
 - Function:
-  - `M == 0 && A + 1 -> S`
-  - `M == 1 && A - 1 -> S`
-  - `( A + 1 ) > 255 | ( A - 1 ) < 0 - > o`
+  - `~M ? ( A + 1 ) : ( A - 1 ) -> S`
+  - `~M ? ( S > 255 ) : ( S < 0 ) -> o`
 
 ## AdcSbb
 - Description:
+  - Adds a pair of bytes with carry
+  - Subtracts a pair of bytes with borrow
+  - Carry or borrow is sent to Carry out
 - Inputs:
+  - A - Input byte A
+  - B - Input byte B
+  - M - Mode control ( 0-Adc 1-Sbb )
+  - i - Carry in
 - Outputs:
+  - S - Result byte
+  - o - Carry out
 - Function:
+  - `~M ? ( A + B + i ) : ( A - B + i ) -> S`
+  - `~M ? ( S > 255 ) : ~( S < 0 ) -> o`
 
 ## Comparator
 - Description:
+  - Compares a pair of bytes
 - Inputs:
+  - A - Input byte A
+  - B - Input byte B
 - Outputs:
+  - A\>B - A is greater than B
+  - A\<B - A is less than B
+  - A=B - A is equal to B
 - Function:
+  - `A > B -> A>B`
+  - `A < B -> A<B`
+  - `A == B -> A=B`
 
 ## D-Latch
 - Description:
+  - Stores a given byte
+  - Byte is fixed when Enable is low
 - Inputs:
+  - D - Input byte
+  - E - Enable control
+  - R - Reset control ( 0-Reset 1-Working )
 - Outputs:
+  - Q - Stored byte
 - Function:
+  - `E ? D : Q -> Q`
 
 ## D-FlipFlop
 - Description:
+  - Stores a given byte
+  - Byte is stored on Clock rising edge
 - Inputs:
+  - D - Input byte
+  - C - Clock control
+  - R - Reset control ( 0-Reset 1-Working )
 - Outputs:
+  - Q - Stored byte
 - Function:
+  - `C ? D : Q -> Q`
 
