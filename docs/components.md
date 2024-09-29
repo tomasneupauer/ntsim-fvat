@@ -3,11 +3,11 @@
 ## And
 - Inputs:
   - A - Input byte A
-  - B - Input byte B
+  + B - Input byte B
 - Outputs:
-  - AND - Result byte
+  * AND - Result byte
 - Function:
-  - A & B -> AND
+  A & B -> AND
 
 ## Or
 - Inputs:
