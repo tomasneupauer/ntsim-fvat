@@ -1,6 +1,10 @@
 # Circuits
 
+- [Arithmetic Logic Unit](#arithmetic-logic-unit)
+- [General Purpose Registers](#general-purpose-registers)
+
 ## Arithmetic Logic Unit
+
 - Description:
   - Performs arithmetic and logic operations on a pair of bytes
   - Stores operands in internal registers
@@ -27,6 +31,7 @@
   - 0xFX - `SBB(X, Y, i) @ CMP(X, Y) -> S`
 
 ## General Purpose Registers
+
 - Description:
   - Contains 8 general purpose registers
   - Register F is reserved for storing flags
