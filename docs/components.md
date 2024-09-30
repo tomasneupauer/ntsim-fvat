@@ -1,5 +1,8 @@
 # Components
 
+- [BitAnd](#bitand)
+- [BitOr](#bitor)
+
 ## BitAnd
 - Description:
   - Performs a bitwise AND on a pair of bytes
