@@ -2,8 +2,18 @@
 
 - [BitAnd](#bitand)
 - [BitOr](#bitor)
+- [BitNor](#bitnor)
+- [RightShift](#rightshift)
+- [Decoder](#decoder)
+- [HalfAdder](#halfadder)
+- [IncDec](incdec)
+- [AdcSbb](adcsbb)
+- [Comparator](comparator)
+- [D-Latch](d-latch)
+- [D-FlipFlop](d-flipflop)
 
 ## BitAnd
+
 - Description:
   - Performs a bitwise AND on a pair of bytes
 - Inputs:
@@ -15,6 +25,7 @@
   - `A & B -> AND`
 
 ## BitOr
+
 - Description:
   - Performs a bitwise OR on a pair of bytes
 - Inputs:
@@ -26,6 +37,7 @@
   - `A | B -> OR`
 
 ## BitNor
+
 - Description:
   - Performs a bitwise NOR on a pair of bytes
 - Inputs:
