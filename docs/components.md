@@ -1,6 +1,19 @@
 # Components
 
+- [BitAnd](#bitand)
+- [BitOr](#bitor)
+- [BitNor](#bitnor)
+- [RightShift](#rightshift)
+- [Decoder](#decoder)
+- [HalfAdder](#halfadder)
+- [IncDec](#incdec)
+- [AdcSbb](#adcsbb)
+- [Comparator](#comparator)
+- [D-Latch](#d-latch)
+- [D-FlipFlop](#d-flipflop)
+
 ## BitAnd
+
 - Description:
   - Performs a bitwise AND on a pair of bytes
 - Inputs:
@@ -12,6 +25,7 @@
   - `A & B -> AND`
 
 ## BitOr
+
 - Description:
   - Performs a bitwise OR on a pair of bytes
 - Inputs:
@@ -23,6 +37,7 @@
   - `A | B -> OR`
 
 ## BitNor
+
 - Description:
   - Performs a bitwise NOR on a pair of bytes
 - Inputs:
@@ -34,6 +49,7 @@
   - `~( A | B ) -> NOR`
 
 ## RightShift 
+
 - Description:
   - Shifts a given byte to the right
   - MSB is set to Carry in
@@ -49,6 +65,7 @@
   - `A & 1 -> o`
 
 ## Decoder
+
 - Description:
   - Decodes a 3-bit code to an 8-bit signal
 - Inputs:
@@ -60,6 +77,7 @@
   - `2 ** C -> D`
 
 ## HalfAdder
+
 - Description:
   - Adds Carry in to a given byte
   - Overflow is sent to Carry out
@@ -74,6 +92,7 @@
   - `S > 255 -> o`
 
 ## IncDec
+
 - Description:
   - Increments or decrements a given byte
   - Overflow is sent to Carry out
@@ -88,6 +107,7 @@
   - `~M ? ( S > 255 ) : ( S < 0 ) -> o`
 
 ## AdcSbb
+
 - Description:
   - Adds a pair of bytes with carry
   - Subtracts a pair of bytes with borrow
@@ -105,6 +125,7 @@
   - `~M ? ( S > 255 ) : ~( S < 0 ) -> o`
 
 ## Comparator
+
 - Description:
   - Compares a pair of bytes
 - Inputs:
@@ -120,6 +141,7 @@
   - `A == B -> A=B`
 
 ## D-Latch
+
 - Description:
   - Stores a given byte
   - Byte is fixed when Enable is low
@@ -133,6 +155,7 @@
   - `E ? D : Q -> Q`
 
 ## D-FlipFlop
+
 - Description:
   - Stores a given byte
   - Byte is stored on Clock rising edge
