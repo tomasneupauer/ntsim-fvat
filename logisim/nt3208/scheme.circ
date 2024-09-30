@@ -866,8 +866,6 @@
     <wire from="(280,260)" to="(290,260)"/>
     <wire from="(280,300)" to="(290,300)"/>
     <wire from="(660,250)" to="(680,250)"/>
-    <wire from="(700,250)" to="(710,250)"/>
-    <wire from="(600,290)" to="(710,290)"/>
     <wire from="(260,300)" to="(280,300)"/>
     <wire from="(390,340)" to="(480,340)"/>
     <wire from="(540,340)" to="(560,340)"/>
@@ -915,6 +913,10 @@
     <wire from="(550,170)" to="(550,230)"/>
     <wire from="(530,160)" to="(530,230)"/>
     <wire from="(690,230)" to="(690,240)"/>
+    <wire from="(700,250)" to="(740,250)"/>
+    <wire from="(730,290)" to="(740,290)"/>
+    <wire from="(720,230)" to="(720,280)"/>
+    <wire from="(600,290)" to="(710,290)"/>
     <comp lib="0" loc="(260,330)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="SE"/>
@@ -930,13 +932,6 @@
       <a name="label" val="Input"/>
     </comp>
     <comp lib="1" loc="(470,360)" name="AND Gate"/>
-    <comp lib="0" loc="(710,250)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="8"/>
-      <a name="label" val="S"/>
-      <a name="labelloc" val="east"/>
-    </comp>
     <comp lib="0" loc="(260,300)" name="Pin">
       <a name="tristate" val="false"/>
       <a name="label" val="LS"/>
@@ -985,6 +980,11 @@
       <a name="label" val="Inc / Dec"/>
     </comp>
     <comp lib="1" loc="(460,230)" name="AND Gate"/>
+    <comp lib="0" loc="(720,230)" name="Pin">
+      <a name="facing" val="south"/>
+      <a name="tristate" val="false"/>
+      <a name="label" val="AS"/>
+    </comp>
     <comp lib="1" loc="(320,290)" name="AND Gate"/>
     <comp lib="0" loc="(260,390)" name="Pin">
       <a name="tristate" val="false"/>
@@ -1002,10 +1002,28 @@
     <comp lib="8" loc="(660,250)" name="Multiplexor">
       <a name="label" val="Output"/>
     </comp>
+    <comp lib="0" loc="(740,290)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="16"/>
+      <a name="label" val="A"/>
+      <a name="labelloc" val="east"/>
+    </comp>
     <comp lib="0" loc="(690,230)" name="Pin">
       <a name="facing" val="south"/>
       <a name="tristate" val="false"/>
       <a name="label" val="ES"/>
+    </comp>
+    <comp lib="1" loc="(730,290)" name="Controlled Buffer">
+      <a name="width" val="16"/>
+      <a name="control" val="left"/>
+    </comp>
+    <comp lib="0" loc="(740,250)" name="Pin">
+      <a name="facing" val="west"/>
+      <a name="output" val="true"/>
+      <a name="width" val="8"/>
+      <a name="label" val="S"/>
+      <a name="labelloc" val="east"/>
     </comp>
     <comp lib="1" loc="(320,250)" name="AND Gate">
       <a name="negate0" val="true"/>
@@ -1024,13 +1042,6 @@
       <a name="tristate" val="false"/>
       <a name="label" val="D"/>
       <a name="labelloc" val="west"/>
-    </comp>
-    <comp lib="0" loc="(710,290)" name="Pin">
-      <a name="facing" val="west"/>
-      <a name="output" val="true"/>
-      <a name="width" val="16"/>
-      <a name="label" val="A"/>
-      <a name="labelloc" val="east"/>
     </comp>
   </circuit>
   <circuit name="Program Counter">

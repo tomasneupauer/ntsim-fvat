@@ -5,6 +5,7 @@
 - [BitNor](#bitnor)
 - [RightShift](#rightshift)
 - [Decoder](#decoder)
+- [Multiplexor](#multiplexor)
 - [HalfAdder](#halfadder)
 - [IncDec](#incdec)
 - [AdcSbb](#adcsbb)
@@ -20,9 +21,9 @@
   - A - Input byte A
   - B - Input byte B
 - Outputs:
-  - AND - Result byte
+  - S - Result byte
 - Function:
-  - `A & B -> AND`
+  - `A & B -> S`
 
 ## BitOr
 
@@ -32,9 +33,9 @@
   - A - Input byte A
   - B - Input byte B
 - Outputs:
-  - OR - Result byte
+  - S - Result byte
 - Function:
-  - `A | B -> OR`
+  - `A | B -> S`
 
 ## BitNor
 
@@ -44,9 +45,9 @@
   - A - Input byte A
   - B - Input byte B
 - Outputs:
-  - NOR - Result byte
+  - S - Result byte
 - Function:
-  - `~( A | B ) -> NOR`
+  - `~( A | B ) -> S`
 
 ## RightShift 
 
@@ -58,10 +59,10 @@
   - A - Input byte
   - i - Carry in
 - Outputs:
-  - SFT - Result byte
+  - S - Result byte
   - o - Carry out
 - Function:
-  - `( A >> 1 ) | ( i << 7 ) -> SFT`
+  - `( A >> 1 ) | ( i << 7 ) -> S`
   - `A & 1 -> o`
 
 ## Decoder
@@ -74,7 +75,20 @@
 - Outputs:
   - D - Decoded 8-bit signal
 - Function:
-  - `2 ** C -> D`
+  - `~E ? 0 : ( 2 ** C ) -> D`
+
+## Multiplexor
+
+- Description:
+  - Multiplexes a pair of bytes
+- Inputs:
+  - A - Input byte A
+  - B - Input byte B
+  - M - Mode Control ( 0-A 1-B )
+- Outputs:
+  - S - Result byte
+- Function:
+  - `~M ? A : B -> S`
 
 ## HalfAdder
 
