@@ -77,22 +77,22 @@
 |           | 100 | `ER PI XT      ` | `01101aaa` | `DDDDDDDD` |
 | **JNZ-R** | 000 | `AC LM         ` | `xxxxxxxx` | `01110aaa` |
 |           | 001 | `MO LI IC      ` | `01110aaa` | `01110aaa` |
-| True      | 010 | `ER AR RC XT   ` | `01110aaa` | `01110aaa` |
-| False     | 010 | `ER AC LM XT   ` | `01110aaa` | `01110aaa` |
+| *True*    | 010 | `ER AR RC XT   ` | `01110aaa` | `01110aaa` |
+| *False*   | 010 | `ER AC LM XT   ` | `01110aaa` | `01110aaa` |
 | **JNZ-I** | 000 | `AC LM         ` | `xxxxxxxx` | `01111xxx` |
 |           | 001 | `MO LI IC      ` | `01111xxx` | `01111xxx` |
 |           | 010 | `AC LM         ` | `01111xxx` | `DDDDDDDD` |
-| True      | 011 | `MO AR RC IC XT` | `01111xxx` | `DDDDDDDD` |
-| False     | 011 | `MO IC XT      ` | `01111xxx` | `DDDDDDDD` |
+| *True*    | 011 | `MO AR RC IC XT` | `01111xxx` | `DDDDDDDD` |
+| *False*   | 011 | `MO IC XT      ` | `01111xxx` | `DDDDDDDD` |
 | **HNZ-R** | 000 | `AC LM         ` | `xxxxxxxx` | `10000aaa` |
 |           | 001 | `MO LI IC      ` | `10000aaa` | `10000aaa` |
-| True      | 010 | `ER AC LM HF XT` | `10000aaa` | `10000aaa` |
-| False     | 010 | `ER AC LM XT   ` | `10000aaa` | `10000aaa` |
+| *True*    | 010 | `ER AC LM HF XT` | `10000aaa` | `10000aaa` |
+| *False*   | 010 | `ER AC LM XT   ` | `10000aaa` | `10000aaa` |
 | **HNZ-I** | 000 | `AC LM         ` | `xxxxxxxx` | `10001xxx` |
 |           | 001 | `MO LI IC      ` | `10001xxx` | `10001xxx` |
 |           | 010 | `AC LM         ` | `10001xxx` | `DDDDDDDD` |
-| True      | 011 | `MO HF IC XT   ` | `10001xxx` | `DDDDDDDD` |
-| False     | 011 | `MO IC XT      ` | `10001xxx` | `DDDDDDDD` |
+| *True*    | 011 | `MO HF IC XT   ` | `10001xxx` | `DDDDDDDD` |
+| *False*   | 011 | `MO IC XT      ` | `10001xxx` | `DDDDDDDD` |
 | **CMP-R** | 000 | `AC LM         ` | `xxxxxxxx` | `10001xxx` |
 |           | 001 | `MO LI IC      ` | `10010aaa` | `10001xxx` |
 |           | 010 | `AC LM ER LX   ` | `10010aaa` | `00000xxx` |
