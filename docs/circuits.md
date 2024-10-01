@@ -4,6 +4,9 @@
 - [General Purpose Registers](#general-purpose-registers)
 - [Program Counter](#program-counter)
 - [Stack Pointer](#stack-pointer)
+- [Memory Address Register](#memory-address-register)
+- [Instruction Register](#instruction-register)
+- [Step Counter](#step_counter)
 
 ## Arithmetic Logic Unit
 
@@ -121,4 +124,50 @@
   - ES - `SP(S) -> D ( 0-G 1-H )`
   - AS - `( SP(H) << 8 ) | SP(G) -> A`
   - `( PC(H+) > 255 ) | ( PC(H-) < 0 ) -> SOF`
+
+## Memory Adderss Register
+
+- Description:
+  - Points to data in the random access memory
+  - Outputs address to the memory control unit
+- Inputs:
+  - A - Input address
+  - LM - Load memory address register
+  - R - Reset control
+  - C - Clock control
+- Outputs:
+  - A - Output address
+- Function:
+  - LM - `A -> MAR`
+
+## Instruction Register
+
+- Description:
+  - Stores current instruction
+- Inputs:
+  - D - Input data
+  - LI - Load instruction register
+  - R - Reset control
+  - C - Clock control
+- Outputs:
+  - O - OP Code
+- Function:
+  - LI - `D -> IR`
+
+## Step Counter
+
+- Description:
+  - Stores current step
+  - Increments and resets current step
+- Inputs:
+  - CLK - Master clock
+  - HLT - Halt flag
+  - INT - Interrupt flag
+  - COF - Counter overflow flag
+  - SOF - Stack overflow flag
+  - XT - Reset step counter
+  - R - Reset control
+- Outputs:
+  - T - Current step
+  - C - Clock control
 
