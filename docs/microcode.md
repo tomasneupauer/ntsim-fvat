@@ -65,5 +65,33 @@
 |           | 010 | `AC LM         ` | `01011aaa` | `DDDDDDDD` |
 |           | 011 | `MO LP IC      ` | `01011aaa` | `DDDDDDDD` |
 |           | 100 | `PO LR XT      ` | `01011aaa` | `DDDDDDDD` |
+| **OUB-R** | 000 | `AC LM         ` | `xxxxxxxx` | `01100aaa` |
+|           | 001 | `MO LI IC      ` | `01100aaa` | `01100aaa` |
+|           | 010 | `AC LM ER LP   ` | `01100aaa` | `01100bbb` |
+|           | 011 | `MO LI IC      ` | `01100bbb` | `01100bbb` |
+|           | 100 | `ER PI XT      ` | `01100bbb` | `01100bbb` |
+| **OUB-I** | 000 | `AC LM         ` | `xxxxxxxx` | `01101aaa` |
+|           | 001 | `MO LI IC      ` | `01101aaa` | `01101aaa` |
+|           | 010 | `AC LM         ` | `01101aaa` | `DDDDDDDD` |
+|           | 011 | `MO LP IC      ` | `01101aaa` | `DDDDDDDD` |
+|           | 100 | `ER PI XT      ` | `01101aaa` | `DDDDDDDD` |
+| **JNZ-R** | 000 | `AC LM         ` | `xxxxxxxx` | `01110aaa` |
+|           | 001 | `MO LI IC      ` | `01110aaa` | `01110aaa` |
+|           | 010 | `ER AR RC XT   ` | `01110aaa` | `01110aaa` |
+|           | 010 | `ER AC LM XT   ` | `01110aaa` | `01110aaa` |
+| **JNZ-I** | 000 | `AC LM         ` | `xxxxxxxx` | `01111xxx` |
+|           | 001 | `MO LI IC      ` | `01111xxx` | `01111xxx` |
+|           | 010 | `AC LM         ` | `01111xxx` | `DDDDDDDD` |
+|           | 011 | `MO AR RC IC XT` | `01111xxx` | `DDDDDDDD` |
+|           | 011 | `MO IC XT      ` | `01111xxx` | `DDDDDDDD` |
+| **HNZ-R** | 000 | `AC LM         ` | `xxxxxxxx` | `10000aaa` |
+|           | 001 | `MO LI IC      ` | `10000aaa` | `10000aaa` |
+|           | 010 | `ER AC LM HF XT` | `10000aaa` | `10000aaa` |
+|           | 010 | `ER AC LM XT   ` | `10000aaa` | `10000aaa` |
+| **HNZ-I** | 000 | `AC LM         ` | `xxxxxxxx` | `10001xxx` |
+|           | 001 | `MO LI IC      ` | `10001xxx` | `10001xxx` |
+|           | 010 | `AC LM         ` | `10001xxx` | `DDDDDDDD` |
+|           | 011 | `MO HF IC XT   ` | `10001xxx` | `DDDDDDDD` |
+|           | 011 | `MO IC XT      ` | `10001xxx` | `DDDDDDDD` |
 
 |           | 000 | `              ` | `00000xxx` | `00000xxx` |
