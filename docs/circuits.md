@@ -1,5 +1,6 @@
 # Circuits
 
+- [Central Control Unit](#central-control-unit)
 - [Arithmetic Logic Unit](#arithmetic-logic-unit)
 - [General Purpose Registers](#general-purpose-registers)
 - [Program Counter](#program-counter)
@@ -7,6 +8,42 @@
 - [Memory Address Register](#memory-address-register)
 - [Instruction Register](#instruction-register)
 - [Step Counter](#step_counter)
+
+## Central Control Unit
+
+- Description:
+  - Decodes current instruction to microcode
+- Inputs:
+  - D - Input data
+  - O - OP Code
+  - T - Current step
+- Outputs:
+  - LX
+  - LY
+  - LR
+  - LF
+  - LG
+  - LH
+  - LM
+  - LI
+  - LP
+  - EZ
+  - EF
+  - ER
+  - AR
+  - AC
+  - AS
+  - RC
+  - IC
+  - IS
+  - DS
+  - PI
+  - PO
+  - RI
+  - RO
+  - MO
+  - XT
+  - HF
 
 ## Arithmetic Logic Unit
 
