@@ -22,12 +22,12 @@
   - C - Clock control
   - i - Carry / Borrow in
 - Outputs:
-  - T - Output data
+  - D - Output data
 - Function:
   - LX - `D -> X`
   - LY - `D -> Y`
-  - EZ - `Z -> T`
-  - EF - `F -> T`
+  - EZ - `Z -> D`
+  - EF - `F -> D`
   - 0x9X - `CMP(X, Y) -> F`
   - 0xAX - `CMP(X, Y) -> F @ AND(X, Y) -> Z`
   - 0xBX - `CMP(X, Y) -> F @ OR(X, Y) -> Z`
@@ -45,16 +45,16 @@
 - Inputs:
   - D - Input data
   - O - OP Code
-  - LR - Load register
-  - LF - Load flags
+  - LR - Load register data
+  - LF - Load flags byte
   - LG - Load low address byte
   - LH - Load high address byte
   - ER - Enable register data
-  - AR - Enable reqister address
+  - AR - Enable register address
   - R - Reset control
   - C - Clock control
 - Outputs:
-  - T - Output data
+  - D - Output data
   - A - Output address
   - i - Carry / Borrow flag
 - Function:
@@ -62,8 +62,37 @@
   - LF - `D -> REG(F)`
   - LG - `D -> REG(G)`
   - LH - `D -> REG(H)`
-  - ER - `REG(A-H) -> T ( OP & 0x07 )`
+  - ER - `REG(A-H) -> D ( OP & 0x07 )`
   - AR - `( REG(H) << 8 ) | REG(G) -> A`
+
+## Program Counter
+
+- Description:
+  - Points to the next instruction in memory
+  - Address is stored in a pair of registers
+  - Increments stored address
+- Inputs:
+  - D - Input data
+  - A - Input address
+  - IC - Increment program counter
+  - LC - Load program counter data
+  - RC - Load program counter address
+  - EC - Enable program counter data
+  - AC - Enable program counter address
+  - S - Select control
+  - R - Reset control
+  - C - Clock control
+- Outputs:
+  - D - Output data
+  - A - Output address
+  - COF - Counter overflow
+- Function:
+  - IC - `PC(G) + 1 -> PC(G+) @ PC(H) + ( PC(G+) > 255 ) -> PC(H+)`
+  - LC - `D -> PC(S) ( 0-G 1-H )`
+  - RC - `( A & 255 ) -> PC(G) @ ( A >> 8 ) -> PC(H)`
+  - EC - `PC(S) -> D ( 0-G 1-H )`
+  - AC - `( PC(H) << 8 ) | PC(G) -> A`
+  - `PC(H+) > 255 -> COF`
 
 ## Stack Pointer
 
@@ -75,14 +104,21 @@
   - D - Input data
   - IS - Increment stack pointer
   - DS - Decrement stack pointer
-  - LS - Load stack pointer
+  - LS - Load stack pointer data
   - ES - Enable stack pointer data
   - AS - Enable stack pointer address
-  - S - Select control ( 0-Low 1-High )
+  - S - Select control
   - R - Reset control
   - C - Clock control
 - Outputs:
-  - T - Output data
+  - D - Output data
   - A - Output address
+  - SOF - Stack overflow
 - Function:
+  - IS - `SP(G) + 1 -> SP(G+) @ SP(H) + ( SP(G+) > 255 ) -> SP(H+)`
+  - DS - `SP(G) - 1 -> SP(G-) @ SP(H) - ( SP(G-) < 0 ) -> SP(H-)`
+  - LS - `D -> SP(S) ( 0-G 1-H )`
+  - ES - `SP(S) -> D ( 0-G 1-H )`
+  - AS - `( SP(H) << 8 ) | SP(G) -> A`
+  - `PC(H+) > 255 | PC(H-) < 0 -> SOF`
 
