@@ -35,3 +35,35 @@
 |           | 101 | `MO LH IC      ` | `00101aaa` | `HHHHHHHH` |
 |           | 110 | `AR LM         ` | `00101aaa` | `RAM-[GH]` |
 |           | 111 | `ER RI XT      ` | `00101aaa` | `RAM-[GH]` |
+| **PSH-R** | 000 | `AC LM         ` | `xxxxxxxx` | `00110aaa` |
+|           | 001 | `MO LI IC      ` | `00110aaa` | `00110aaa` |
+|           | 010 | `AS LM         ` | `00110aaa` | `STK-[SP]` |
+|           | 011 | `ER RI IS XT   ` | `00110aaa` | `STK-[SP]` |
+| **PSH-I** | 000 | `AC LM         ` | `xxxxxxxx` | `00111xxx` |
+|           | 001 | `MO LI IC      ` | `00111xxx` | `00111xxx` |
+|           | 010 | `AC LM         ` | `00111xxx` | `DDDDDDDD` |
+|           | 011 | `MO LX IC      ` | `00111xxx` | `DDDDDDDD` |
+|           | 100 | `AS LM         ` | `00111xxx` | `STK-[SP]` |
+|           | 101 | `EZ RI IS XT   ` | `00111xxx` | `STK-[SP]` |
+| **POP-R** | 000 | `AC LM         ` | `xxxxxxxx` | `01000aaa` |
+|           | 001 | `MO LI IC      ` | `01000aaa` | `01000aaa` |
+|           | 010 | `AC LM DS      ` | `01000aaa` | `01000aaa` |
+|           | 011 | `AS LM         ` | `01000aaa` | `STK-[SP]` |
+|           | 100 | `RO LR XT      ` | `01000aaa` | `STK-[SP]` |
+| **POP-I** | 000 | `AC LM         ` | `xxxxxxxx` | `01001aaa` |
+|           | 001 | `MO LI IC      ` | `01001aaa` | `01001aaa` |
+|           | 010 | `AC LM DS      ` | `01001aaa` | `01001aaa` |
+|           | 011 | `AS LM         ` | `01001aaa` | `STK-[SP]` |
+|           | 100 | `RO LR XT      ` | `01001aaa` | `STK-[SP]` |
+| **INB-R** | 000 | `AC LM         ` | `xxxxxxxx` | `01010aaa` |
+|           | 001 | `MO LI IC      ` | `01010aaa` | `01010aaa` |
+|           | 010 | `AC LM ER LP   ` | `01010aaa` | `01010bbb` |
+|           | 011 | `MO LI IC      ` | `01010bbb` | `01010bbb` |
+|           | 100 | `PO LR XT      ` | `01010bbb` | `01010bbb` |
+| **INB-I** | 000 | `AC LM         ` | `xxxxxxxx` | `01011aaa` |
+|           | 001 | `MO LI IC      ` | `01011aaa` | `01011aaa` |
+|           | 010 | `AC LM         ` | `01011aaa` | `DDDDDDDD` |
+|           | 011 | `MO LP IC      ` | `01011aaa` | `DDDDDDDD` |
+|           | 100 | `PO LR XT      ` | `01011aaa` | `DDDDDDDD` |
+
+|           | 000 | `              ` | `00000xxx` | `00000xxx` |
