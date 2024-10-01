@@ -2,8 +2,8 @@
 
 - [Arithmetic Logic Unit](#arithmetic-logic-unit)
 - [General Purpose Registers](#general-purpose-registers)
-- [Stack Pointer](#stack-pointer)
 - [Program Counter](#program-counter)
+- [Stack Pointer](#stack-pointer)
 
 ## Arithmetic Logic Unit
 
