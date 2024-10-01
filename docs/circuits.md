@@ -7,7 +7,7 @@
 - [Stack Pointer](#stack-pointer)
 - [Memory Address Register](#memory-address-register)
 - [Instruction Register](#instruction-register)
-- [Step Counter](#step_counter)
+- [Step Counter](#step-counter)
 
 ## Central Control Unit
 
