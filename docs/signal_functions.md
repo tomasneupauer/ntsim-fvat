@@ -1,9 +1,14 @@
 # Signal Functions
 
-```
-[ABCDEFGH] = IR & 0xf8 | SC
-T = DATA != 0
-```
+Microcode signals in logic function representation.
+Symbols A-E are five most significant bits of current instruction.
+Symbols F-H are three least significant bits of curren step.
+Symbol T is used in conditional instructions. T is set if byte on data bus is not zero.
+
+## Logic functions
+
+- `[ABCDEFGH] = IR & 0xf8 | SC & 0x07`
+- `T = DATA != 0`
 
 - LR = `(~A & ~C & ~D & ~E & F & ~G & ~H) | (~A & ~B & ~C & ~D & E & ~F & G & H) | (~A & ~B & ~C & D & ~E & ~F & G & H) | (~A & ~B & ~C & D & E & F & G & H) | (~A & B & ~C & F & ~G & ~H) | (A & C & ~E & F & ~G & H) | (A & C & E & F & ~G & ~H) | (A & B & ~E & F & ~G & H) | (B & ~C & E & F & ~G & ~H)`
 - LF = `(A & ~B & ~C & D & ~E & F & ~G & H) | (A & ~B & ~C & D & E & F & ~G & ~H) | (A & C & ~E & F & G & ~H) | (A & C & E & F & ~G & H) | (A & B & ~E & F & G & ~H) | (A & B & E & F & ~G & H)`
