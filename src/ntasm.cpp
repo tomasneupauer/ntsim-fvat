@@ -7,7 +7,7 @@ char *INSTRUCTIONS[16] = {"MVW", "LDW", "STW", "PSH", "POP", "INB", "OUB", "JNZ"
 
 int op_code(char *instr){
     int op = 0;
-    while (!strcmp(instr, INSTRUCTIONS[op]){
+    while (!strcmp(instr, INSTRUCTIONS[op] && op < 16){
         op++;
     }
     return op;
@@ -78,11 +78,25 @@ int main(int argc, char **argv){
                 write_instr(ebf_fp, instr, arg_a, 'R');
             }
             else {
+                write_instr(ebf_fp, instr, "A", 'I');
                 write_imm8(ebf_fp, arg_a);
+            }
+        }
+        else if (op >= 9 && op <=15){
+            next_token(asm_fp, arg_a);
+            next_token(asm_fp, arg_b);
+            if (strlen(arg_b) == 1){
+                write_instr(ebf_fp, instr, arg_a, 'R');
+                write_instr(ebf_fp, instr, arg_b, 'R');
+            }
+            else {
+                write_instr(ebf_fp, instr, arg_a, 'I');
+                write_imm8(ebf_fp, arg_b);
             }
         }
     }
     fclose(asm_fp);
+    fclose(ebf_fp);
     return 0;
 }
 
