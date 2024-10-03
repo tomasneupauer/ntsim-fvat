@@ -3,9 +3,9 @@ FIBONACCI
 TOMAS NEUPAUER
 
 MVW     0x01    A
-MVW	    0x40    C
-OUB	    0x03    C
-PSH	    0x00
+MVW     0x40    C
+OUB     0x03    C
+PSH     0x00
 POP     G
 ADC     A       B
 STW     A
