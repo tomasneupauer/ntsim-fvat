@@ -3,27 +3,27 @@
 #include <cstring>
 using namespace std;
 
-char *INSTRUCTIONS[16] = {"MVW", "LDW", "STW", "PSH", "POP", "INB", "OUB", "JNZ", "HNZ", "CMP", "AND", "ORR", "NOR", "SFR", "ADC", "SBB"};
+const char *INSTRUCTIONS[16] = {"MVW", "LDW", "STW", "PSH", "POP", "INB", "OUB", "JNZ", "HNZ", "CMP", "AND", "ORR", "NOR", "SFR", "ADC", "SBB"};
 
-int op_code(char *instr){
-    int op = 0;
-    while (!strcmp(instr, INSTRUCTIONS[op] && op < 16){
-        op++;
+int instr_opcode(char *instr){
+    int opc = 0;
+    while (strcmp(instr, INSTRUCTIONS[opc]) && opc < 16){
+        opc++;
     }
-    return op;
+    return opc;
 }
 
 int next_token(FILE *fp, char *token){
     return fscanf(fp, "%7s", token) > 0;
 }
 
-void write_instr(FILE *fp, char *instr, char *reg, char mode){
+void write_instr(FILE *fp, int opcode, char reg, char mode){
     int mode_bit = mode == 'I';
-    fputc((op_code(instr) << 4) | (mode_bit << 3) | (reg[0] - 'A'), fp);
+    fputc((opcode << 4) | (mode_bit << 3) | (reg - 'A'), fp);
 }
 
 void write_imm8(FILE *fp, char *immidiate){
-    fputc(strtol(immidiate, NULL, 0) fp);
+    fputc(strtol(immidiate, NULL, 0), fp);
 }
 
 void write_imm16(FILE *fp, char *immidiate){
@@ -32,69 +32,74 @@ void write_imm16(FILE *fp, char *immidiate){
     fputc(imm >> 8, fp);
 };
 
+int assemble(FILE *infp, FILE *oufp){
+    char instr[8];
+    char arg_a[8];
+    char arg_b[8];
+    while (next_token(infp, instr)){
+        int opcode = instr_opcode(instr);
+        if (opcode == 0 || opcode == 5 || opcode == 6){
+            next_token(infp, arg_a);
+            next_token(infp, arg_b);
+            if (strlen(arg_a) == 1){
+                write_instr(oufp, opcode, arg_a[0], 'R');
+                write_instr(oufp, opcode, arg_b[0], 'R');
+            }
+            else {
+                write_instr(oufp, opcode, arg_b[0], 'I');
+                write_imm8(oufp, arg_a);
+            }
+        }
+        if (opcode == 1 || opcode == 2){
+            next_token(infp, arg_a);
+            if (strlen(arg_a) == 1){
+                write_instr(oufp, opcode, arg_a[0], 'R');
+            }
+            else {
+                next_token(infp, arg_b);
+                write_instr(oufp, opcode, arg_b[0], 'I');
+                write_imm16(oufp, arg_a);
+            }
+        }
+        else if (opcode == 3 || opcode == 4 || opcode == 7 || opcode == 8){
+            next_token(infp, arg_a);
+            if (strlen(arg_a) == 1){
+                write_instr(oufp, opcode, arg_a[0], 'R');
+            }
+            else {
+                write_instr(oufp, opcode, 'A', 'I');
+                write_imm8(oufp, arg_a);
+            }
+        }
+        else if (opcode >= 9 && opcode <=15){
+            next_token(infp, arg_a);
+            next_token(infp, arg_b);
+            if (strlen(arg_b) == 1){
+                write_instr(oufp, opcode, arg_a[0], 'R');
+                write_instr(oufp, opcode, arg_b[0], 'R');
+            }
+            else {
+                write_instr(oufp, opcode, arg_a[0], 'I');
+                write_imm8(oufp, arg_b);
+            }
+        }
+    }
+    return 0;
+}
+
 int main(int argc, char **argv){
-    char name[256];
-    char out[256];
-    scanf("%s%s", name, out);
-    FILE *asm_fp = fopen(name, "r");
-    FILE *ebf_fp = fopen(out, "w");
+    //char name[256];
+    //char out[256];
+    //scanf("%s%s", name, out);
+    FILE *asm_fp = fopen(argv[1], "r");
+    FILE *ebf_fp = fopen(argv[2], "w");
     char version[16];
     char title[256];
     char author[256];
     fgets(version, sizeof(version), asm_fp);
     fgets(title, sizeof(title), asm_fp);
     fgets(author, sizeof(author), asm_fp);
-    char instr[8];
-    while (next_token(asm_fp, instr)){
-        int op = op_code(instr);
-        char arg_a[8];
-        char arg_b[8];
-        if (op == 0 || op == 5 || op == 6){
-            next_token(asm_fp, arg_a);
-            next_token(asm_fp, arg_b);
-            if (strlen(arg_a) == 1){
-                write_instr(ebf_fp, instr, arg_a, 'R');
-                write_instr(ebf_fp, instr, arg_b, 'R');
-            }
-            else {
-                write_instr(ebf_fp, instr, arg_b, 'I');
-                write_imm8(ebf_fp, arg_a);
-            }
-        }
-        if (op == 1 || op == 2){
-            next_token(asm_fp, arg_a);
-            if (strlen(arg_a) == 1){
-                write_instr(ebf_fp, instr, arg_a, 'R');
-            }
-            else {
-                next_token(asm_fp, arg_b);
-                write_instr(ebf_fp, instr, arg_b, 'I');
-                write_imm16(ebf_fp, arg_a);
-            }
-        }
-        else if (op == 3 || op == 4 || op == 7 || op == 8){
-            next_token(asm_fp, arg_a);
-            if (strlen(arg_a == 1){
-                write_instr(ebf_fp, instr, arg_a, 'R');
-            }
-            else {
-                write_instr(ebf_fp, instr, "A", 'I');
-                write_imm8(ebf_fp, arg_a);
-            }
-        }
-        else if (op >= 9 && op <=15){
-            next_token(asm_fp, arg_a);
-            next_token(asm_fp, arg_b);
-            if (strlen(arg_b) == 1){
-                write_instr(ebf_fp, instr, arg_a, 'R');
-                write_instr(ebf_fp, instr, arg_b, 'R');
-            }
-            else {
-                write_instr(ebf_fp, instr, arg_a, 'I');
-                write_imm8(ebf_fp, arg_b);
-            }
-        }
-    }
+    assemble(asm_fp, ebf_fp);
     fclose(asm_fp);
     fclose(ebf_fp);
     return 0;
