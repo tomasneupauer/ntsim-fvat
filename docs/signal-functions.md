@@ -1,6 +1,6 @@
 # Signal Functions
 
-Microcode signals in logic function representation.
+Microcode signals expressed in logic functions.
 Symbols A-E are five most significant bits of current instruction.
 Symbols F-H are three least significant bits of curren step.
 Symbol T is used in conditional instructions. T is set if byte on data bus is not zero.
