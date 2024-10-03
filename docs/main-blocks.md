@@ -45,7 +45,7 @@
   - XT
   - HF
 - Function:
-  - For detailed function see [Signal functions](docs/signal-functions.md) and [Microcode] (docs/microcode.md)
+  - For detailed function see [Signal functions](docs/signal-functions.md) and [Microcode](docs/microcode.md)
 
 ## Arithmetic Logic Unit
 
