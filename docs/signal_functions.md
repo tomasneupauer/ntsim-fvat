@@ -7,15 +7,15 @@ Symbol T is used in conditional instructions. T is set if byte on data bus is no
 
 ## Logic functions
 
-- [ABCDEFGH] = IR & 0xf8 | SC & 0x07
-- T = DATA != 0
+- *[ABCDEFGH]* = `IR & 0xf8 | SC & 0x07`
+- **T** = `DATA != 0`
 
 - **LR** = `(~A & ~C & ~D & ~E & F & ~G & ~H) | (~A & ~B & ~C & ~D & E & ~F & G & H) | (~A & ~B & ~C & D & ~E & ~F & G & H) | (~A & ~B & ~C & D & E & F & G & H) | (~A & B & ~C & F & ~G & ~H) | (A & C & ~E & F & ~G & H) | (A & C & E & F & ~G & ~H) | (A & B & ~E & F & ~G & H) | (B & ~C & E & F & ~G & ~H)`
-- LF = `(A & ~B & ~C & D & ~E & F & ~G & H) | (A & ~B & ~C & D & E & F & ~G & ~H) | (A & C & ~E & F & G & ~H) | (A & C & E & F & ~G & H) | (A & B & ~E & F & G & ~H) | (A & B & E & F & ~G & H)`
+- **LF** = `(A & ~B & ~C & D & ~E & F & ~G & H) | (A & ~B & ~C & D & E & F & ~G & ~H) | (A & C & ~E & F & G & ~H) | (A & C & E & F & ~G & H) | (A & B & ~E & F & G & ~H) | (A & B & E & F & ~G & H)`
 - **LG** = `(~A & ~B & ~C & D & E & ~F & G & H) | (~A & ~B & C & ~D & E & ~F & G & H)`
 - **LH** = `(~A & ~B & ~C & D & E & F & ~G & H) | (~A & ~B & C & ~D & E & F & ~G & H)`
 - **ER** = `(~B & ~C & ~D & ~E & ~F & G & ~H) | (~A & ~B & C & ~E & ~F & G & H) | (~A & ~B & C & ~D & E & F & G & H) | (B & D & ~E & ~F & G & ~H) | (B & C & ~E & ~F & G & ~H) | (~A & B & C & ~D & F & ~G & ~H) | (A & D & ~E & F & ~G & ~H) | (A & D & ~F & G & ~H) | (A & C & ~E & F & ~G & ~H) | (A & C & ~F & G & ~H) | (A & B & ~E & F & ~G & ~H) | (A & B & ~F & G & ~H)`
-- AR = `(~A & ~B & ~C & D & ~E & ~F & G & ~H) | (~A & ~B & ~C & D & E & F & G & ~H) | (~A & ~B & C & ~D & ~E & ~F & G & ~H) | (~A & ~B & C & ~D & E & F & G & ~H) | (~A & B & C & D & ~E & ~F & G & ~H & T) | (~A & B & C & D & E & ~F & G & H & T)`
+- **AR** = `(~A & ~B & ~C & D & ~E & ~F & G & ~H) | (~A & ~B & ~C & D & E & F & G & ~H) | (~A & ~B & C & ~D & ~E & ~F & G & ~H) | (~A & ~B & C & ~D & E & F & G & ~H) | (~A & B & C & D & ~E & ~F & G & ~H & T) | (~A & B & C & D & E & ~F & G & H & T)`
 - **LX** = `(~A & ~B & ~C & ~D & ~E & ~F & G & ~H) | (~A & ~B & C & D & E & ~F & G & H) | (A & D & ~F & G & ~H) | (A & C & ~F & G & ~H) | (A & B & ~F & G & ~H)`
 - **LY** = `(A & D & ~E & F & ~G & ~H) | (A & D & E & ~F & G & H) | (A & C & ~E & F & ~G & ~H) | (A & C & E & ~F & G & H) | (A & B & ~E & F & ~G & ~H) | (A & B & E & ~F & G & H)`
 - **EZ** = `(~A & ~B & ~C & ~D & ~E & F & ~G & ~H) | (~A & ~B & C & D & E & F & ~G & H) | (A & C & ~E & F & ~G & H) | (A & C & E & F & ~G & ~H) | (A & B & ~E & F & ~G & H) | (A & B & E & F & ~G & ~H)`
