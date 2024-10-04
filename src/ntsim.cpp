@@ -21,23 +21,23 @@ void waitForEnter(){
 class Control{
     private:
         vector<signal_t> signals;       
-        addr_t mem_addr; // Memory Address Register
-        bus_t data_bus;
-        bus_t addr_bus;
-        byte_t opcode; // Instruction Register
-        byte_t step; // Step Counter
-        int interrupt;
-        int state;
+        addr_t memoryAddressRegister;
+        byte_t instructionRegister;
+        byte_t stepCounter;
+        bus_t dataBus;
+        bus_t addressBus;
+        int interruptFlags;
+        int signalState;
 
         void resetBuses(){
-            data_bus = -1;
-            addr_bus = -1;
+            dataBus = -1;
+            addressBus = -1;
         }
 
-        void updateState(){
-            state = opcode & 0xf8 | step & 0x07;
+        void updateSignals(){
+            signalState = instructionRegister & 0xf8 | stepCounter & 0x07;
             for (int i=0; i<signals.size(); i++){
-                signals[i] = find(MICROCODE[i].begin(), MICROCODE[i].end(), state) != MICROCODE[i].end();
+                signals[i] = find(MICROCODE[i].begin(), MICROCODE[i].end(), signalState) != MICROCODE[i].end();
             }
         }
 
@@ -46,11 +46,11 @@ class Control{
             signals(SIGNALS.size(), 0)
         {
             resetBuses();
-            mem_addr = 0;
-            opcode = 0;
-            step = -1;
-            interrupt = 0;
-            state = 0;
+            memoryAddressRegister = 0;
+            instructionRegister = 0;
+            stepCounter = -1;
+            interruptFlags = 0;
+            signalState = 0;
         }
 
         signal_t signalValue(string name){
@@ -61,49 +61,65 @@ class Control{
             return 0;
         }
 
-        void setInterrupt(string flag){
+        void setInterruptFlag(string flag){
             int index = find(INTERRUPTS.begin(), INTERRUPTS.end(), flag) - INTERRUPTS.begin();
             if (index < INTERRUPTS.size()){
-                interrupt |= 1 << index;
+                interruptFlags |= 1 << index;
             }
         }
 
         void onLowStepClock(){
             if (!signalValue("XT")){
-                step++;
+                stepCounter++;
             }
             else {
-                step = 0;
+                stepCounter = 0;
             }
             resetBuses();
-            updateState();
+            updateSignals();
+        }
+
+        void onHighStepClock(){
+            if (signalValue("LM")){
+                memoryAddressRegister = addressBus;
+            }
+            if (signalValue("LI")){
+                instructionRegister = dataBus;
+            }
         }
 
         int branchSignals(){
-            if (data_bus != 0){
-                if (state == 114 || state == 123){
+            if (dataBus != 0){
+                if (signalState == 114 || signalState == 123){
                     signals[signalValue("AR")] = 1;
                     signals[signalValue("RC")] = 1;
                     return 1;
                 }
-                else if (state == 130 || state == 139){
-                    setInterrupt("HLT");
+                else if (signalState == 130 || signalState == 139){
+                    setInterruptFlag("HLT");
                     return 1;
                 }
             }
-            else if (state == 123 || state == 139){
+            else if (signalState == 123 || signalState == 139){
                 signals[signalValue("IC")] = 1;
                 return 1;
             }
             return 0;
         }
 
-        int getInterrupt(){
-            return interrupt;
+        int getInterruptFlags(){
+            return interruptFlags;
         }
 
-        int getStep(){
-            return step;
+        int getStepCounter(){
+            return stepCounter;
+        }
+
+        void dumpSignals(){
+            for (int i=0; i<signals.size(); i++){
+                cout << signals[i] << ' ';
+            }
+            cout << endl;
         }
 };
 
@@ -174,7 +190,7 @@ class StepEmulator{
         }
 
         void mainLoop(){
-            while (!control.getInterrupt()) {
+            while (!control.getInterruptFlags()) {
                 if (!clock){
                     control.onLowStepClock();
                     memory.onLowStepClock(&control);
@@ -182,10 +198,12 @@ class StepEmulator{
                     if (control.branchSignals()){
                         system.onLowStepClock(&control);
                     }
-                    cout << clock << ' ' << control.getStep() << endl;
+                    cout << clock << ' ' << control.getStepCounter() << endl;
+                    control.dumpSignals();
                 }
                 else {
-                    cout << clock << ' ' << control.getStep() << endl;
+                    cout << clock << ' ' << control.getStepCounter() << endl;
+                    control.dumpSignals();
                 }
                 //update out
                 waitForEnter();
