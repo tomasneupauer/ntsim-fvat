@@ -26,6 +26,12 @@ class Memory{
         void onLowStepClock(){
             
         }
+
+        void dumpMemory(){
+            for (int i=0; i<mem_size; i++){
+                printf("0x%02X\n", mem_block[i]);
+            }
+        }
 };
 
 //class Registers{};
@@ -33,7 +39,9 @@ class Memory{
 //class Buses{};
 
 int main(int argc, char **argv){
-    FILE *ebf_fp = fopen(argv[1], 'r');
+    FILE *ebf_fp = fopen(argv[1], "r");
+    Memory memctl(ebf_fp);
+    memctl.dumpMemory();
     fclose(ebf_fp);
     return 0;
 }
