@@ -64,8 +64,24 @@ class Control{
         void setInterruptFlag(string flag){
             int index = find(INTERRUPTS.begin(), INTERRUPTS.end(), flag) - INTERRUPTS.begin();
             if (index < INTERRUPTS.size()){
-                interruptFlags |= 1 << index;
+                interruptFlags |= 0x01 << index;
             }
+        }
+
+        void setDataBus(byte_t data){
+            dataBus = data;
+        }
+
+        byte_t getDataBus(){
+            return dataBus;
+        }
+
+        void setAddressBus(addr_t address){
+            addressBus = address;
+        }
+
+        addr_t getAddressBus(){
+            return addressBus;
         }
 
         void onLowStepClock(){
@@ -107,12 +123,16 @@ class Control{
             return 0;
         }
 
-        int getInterruptFlags(){
-            return interruptFlags;
+        int getOpcode(){
+            return instructionRegister;
         }
 
-        int getStepCounter(){
+        int getStep(){
             return stepCounter;
+        }
+
+        int getInterruptFlags(){
+            return interruptFlags;
         }
 
         void dumpSignals(){
@@ -154,22 +174,82 @@ class Memory{
 
 class System{
     private:
-        vector<byte_t> gp_regs; // General Purpose Registers
-        vector<byte_t> xy_regs; // Arithmetic Logic Unit Registers
-        addr_t program_counter; // Program Counter
-        addr_t stack_pointer; // Stack Pointer
+        vector<byte_t> generalPurposeRegisters;
+        addr_t programCounter;
+        addr_t stackPointer;
+        byte_t registerX;
+        byte_t registerY;
 
     public:
         System():
-            gp_regs(8, 0),
-            xy_regs(8, 0)
+            generalPurposeRegisters(8, 0)
         {
             program_counter = 0;
             stack_pointer = 0;
+            registerX = 0;
+            registerY = 0;
+        }
+
+        int getCarryFlag(){
+            return generalPurposeRegisters[5] & 0x01;
         }
 
         void onLowStepClock(Control *control){
-        
+            if (control->signalValue("ER"){
+                int selector = control.getOpcode() & 0x07;
+                control->setDataBus(generalPurposeRegisters[selector]);
+            }
+            if (control->signalValue("EZ"){
+                int selector = control.getOpcode() >> 4;
+                byte_t registerZ = registerX;
+                switch (selector){
+                    case 10:
+                        registerZ = registerX & registerY;
+                        break;
+                    case 11:
+                        registerZ = registerX | registerY;
+                        break;
+                    case 12:
+                        registerZ = ~(registerX | registerY);
+                        break;
+                    case 13:
+                        registerZ = registerX >> 1 & getCarryFlag() << 7;
+                        break;
+                    case 14:
+                        registerZ = registerX + registerY + getCarryFlag();
+                        break;
+                    case 15:
+                        registerZ = registerX - registerY + getCarryFlag();
+                        break;
+                }
+                control->setDataBus(registerZ);
+            }
+            if (control->signalValue("EF"){
+                int selector = control.getOpcode() >> 4;
+                byte_t flags = (registerX > registerY) << 1 | (registerX < registerY) << 2 | (registerX == registerY) << 3;
+                switch (selector){
+                    case 13:
+                        flags |= registerX & 0x01;
+                        break;
+                    case 14:
+                        flags |= (registerX + registerY + getCarryFlag()) > 255;
+                        break;
+                    case 15:
+                        flags |= (registerX - registerY + getCarryFlag()) >= 0;
+                        break;
+                }
+                control->setDataBus(flags);
+            }
+            if (control->signalValue("AR"){
+                control->setAddressBus((addr_t)generalPurposeRegisters[7] << 8 & generalPurposeRegisters[6]);
+                
+            }
+            if (control->signalValue("AC"){
+                control->setAddressBus(programCounter);
+            }
+            if (control->signalValue("AS"){
+                control->setAddressBus(stackPointer);
+            }
         }
 };
 
@@ -198,11 +278,11 @@ class StepEmulator{
                     if (control.branchSignals()){
                         system.onLowStepClock(&control);
                     }
-                    cout << clock << ' ' << control.getStepCounter() << endl;
+                    cout << clock << ' ' << control.getStep() << endl;
                     control.dumpSignals();
                 }
                 else {
-                    cout << clock << ' ' << control.getStepCounter() << endl;
+                    cout << clock << ' ' << control.getStep() << endl;
                     control.dumpSignals();
                 }
                 //update out
