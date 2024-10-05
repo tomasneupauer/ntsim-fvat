@@ -47,7 +47,7 @@ vector<vector<int>> MICROCODE = {
     {4, 11, 19, 31, 35, 47, 51, 61, 68, 76, 84, 92, 100, 108, 149, 156, 166, 173, 182, 189, 198, 205, 214, 221, 230, 237, 246, 253, 114, 123, 130, 139}
 };
 
-vector<vector<int> LOOPBACK_TABLE = {
+vector<vector<int>> LOOPBACK_TABLE = {
     {8, 9},
     {10, 11},
     {12, 13},
@@ -55,7 +55,7 @@ vector<vector<int> LOOPBACK_TABLE = {
     {18, 19},
     {20, 21},
     {9, 11, 13, 17, 19, 21}
-}
+};
 
 #endif
 
