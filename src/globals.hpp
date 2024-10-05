@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
 using namespace std;
 
 typedef unsigned char byte_t;
