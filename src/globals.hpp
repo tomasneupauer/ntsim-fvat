@@ -15,6 +15,8 @@ vector<string> INSTRUCTIONS = {"MVW", "LDW", "STW", "PSH", "POP", "INB", "OUB", 
 
 vector<string> SIGNALS = {"LX", "LY", "LR", "LF", "LG", "LH", "LM", "LI", "LP", "EZ", "EF", "ER", "AR", "AC", "AS", "RC", "IC", "IS", "DS", "PI", "PO", "RI", "RO", "MO", "XT"};
 
+vector<string> PORT_SIGNALS = {"LC", "LS", "EC", "ES", "LB", "LE"};
+
 vector<string> INTERRUPTS = {"HLT", "INT", "COF", "SOF"};
 
 vector<vector<int>> MICROCODE = {
