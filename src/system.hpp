@@ -2,6 +2,7 @@
 #define SYSTEM_HPP
 
 #include "globals.hpp"
+#include "control.hpp"
 using namespace std;
 
 class System{
@@ -91,6 +92,22 @@ class System{
             if (control->signalValue("DS") && stackPointer == 0x0000){
                 control->setInterruptFlag("SOF");
             }
+            if (control->signalValue("EC")){
+                if (control->signalValue("SE")){
+                    control->setDataBus(programCounter >> 8);
+                }
+                else {
+                    control->setDataBus(programCounter);
+                }
+            }
+            if (control->signalValue("ES")){
+                if (control->signalValue("SE")){
+                    control->setDataBus(stackPointer >> 8);
+                }
+                else {
+                    control->setDataBus(stackPointer);
+                }
+            }
         }
 
         void onHighStepClock(Control *control){
@@ -121,6 +138,22 @@ class System{
             }
             if (control->signalValue("DS")){
                 stackPointer--;
+            }
+            if (control->signalValue("LC")){
+                if (control->signalValue("SE")){
+                    programCounter = programCounter & 0x00ff | (addr_t)control->getDataBus() << 8;
+                }
+                else {
+                    programCounter = programCounter & 0xff00 | control->getDataBus();
+                }
+            }
+            if (control->signalValue("LS")){
+                if (control->signalValue("SE")){
+                    stackPointer = stackPointer & 0x00ff | (addr_t)control->getDataBus() << 8;
+                }
+                else {
+                    stackPointer = stackPointer & 0xff00 | control->getDataBus();
+                }
             }
         }
 };
