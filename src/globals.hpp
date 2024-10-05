@@ -15,19 +15,9 @@ vector<string> INSTRUCTIONS = {"MVW", "LDW", "STW", "PSH", "POP", "INB", "OUB", 
 
 vector<string> SIGNALS = {"LX", "LY", "LR", "LF", "LG", "LH", "LM", "LI", "LP", "EZ", "EF", "ER", "AR", "AC", "AS", "RC", "IC", "IS", "DS", "PI", "PO", "RI", "RO", "MO", "XT"};
 
-vector<string> INTERRUPTS = {"HLT", "INT", "COF", "SOF"};
-
 vector<string> LOOPBACK_SIGNALS = {"LC", "LS", "LB", "EC", "ES", "EB", "SE"};
 
-vector<vector<int> LOOPBACK_PORTS = {
-    {8, 9},
-    {10, 11},
-    {12, 13},
-    {0, 1},
-    {2, 3},
-    {4, 5},
-    {1, 3, 5, 9, 11, 13}
-}
+vector<string> INTERRUPTS = {"HLT", "INT", "COF", "SOF"};
 
 vector<vector<int>> MICROCODE = {
     {2, 59, 146, 154, 162, 170, 178, 186, 194, 202, 210, 218, 226, 234, 242, 250},
@@ -56,6 +46,16 @@ vector<vector<int>> MICROCODE = {
     {1, 3, 9, 11, 17, 25, 27, 29, 33, 41, 43, 45, 49, 57, 59, 65, 73, 81, 83, 89, 91, 97, 99, 105, 107, 113, 121, 123, 129, 137, 139, 145, 147, 153, 155, 161, 163, 169, 171, 177, 179, 185, 187, 193, 195, 201, 203, 209, 211, 217, 219, 225, 227, 233, 235, 241, 243, 249, 251},
     {4, 11, 19, 31, 35, 47, 51, 61, 68, 76, 84, 92, 100, 108, 149, 156, 166, 173, 182, 189, 198, 205, 214, 221, 230, 237, 246, 253, 114, 123, 130, 139}
 };
+
+vector<vector<int> LOOPBACK_PORTS = {
+    {8, 9},
+    {10, 11},
+    {12, 13},
+    {0, 1},
+    {2, 3},
+    {4, 5},
+    {1, 3, 5, 9, 11, 13}
+}
 
 #endif
 
