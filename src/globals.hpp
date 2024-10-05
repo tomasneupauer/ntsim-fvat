@@ -7,6 +7,7 @@ using namespace std;
 
 typedef unsigned char byte_t;
 typedef unsigned short int addr_t;
+typedef unsigned int long_addr_t;
 typedef bool signal_t;
 typedef int bus_t;
 
