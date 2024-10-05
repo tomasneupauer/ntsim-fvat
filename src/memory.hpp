@@ -9,7 +9,9 @@ using namespace std;
 class Memory{
     private:
         byte_t *randomAccessMemory;
+        byte_t *videoMemory;
         size_t memorySize;
+        size_t videoSize;
         byte_t memoryBank;
         byte_t executionBank;
 
@@ -17,21 +19,22 @@ class Memory{
             return ((long_addr_t)bankByte & 0x7f) << 16 | memoryAddress;
         }
 
-        void storeWord (byte_t data, long_addr_t address){
+        void reallocateMemory (long_addr_t address){
             if (address >= memorySize){
                 memorySize = (address / MEMORY_ALIGN + 1) * MEMORY_ALIGN;
                 randomAccessMemory = (byte_t*)realloc(randomAccessMemory, memorySize);
             }
-            randomAccessMemory[address] = data;
         }
 
     public:
-        Memory(FILE *binfp){
+        Memory(FILE *binfp, size_t videoSizePreset){
             fseek(binfp, 0, SEEK_END);
             memorySize = ftell(binfp);
             randomAccessMemory = (byte_t*)malloc(memorySize*sizeof(byte_t));
             fseek(binfp, 0, SEEK_SET);
             fread(randomAccessMemory, sizeof(byte_t), memorySize, binfp);
+            videoSize = videoSizePreset;
+            videoMemory = (byte_t*)malloc(videoSize*sizeof(byte_t));
             memoryBank = 0;
             executionBank = 0;
         }
@@ -60,11 +63,12 @@ class Memory{
         void onHighStepClock(Control *control){
             if (control->signalValue("RI")){
                 long_addr_t address = longAddress(control->getMemoryAddress(), memoryBank);
-                if (memoryBank & 0x80){
-                    //write VRAM
+                if (memoryBank & 0x80 && address < videoSize){
+                    videoMemory[address] = control->getDataBus();
                 }
                 else {
-                    storeWord(control->getDataBus, address);
+                    reallocateMemory(address);
+                    randomAccessMemory[address] = control->getDataBus();
                 }
             }
         }
