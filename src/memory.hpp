@@ -60,7 +60,7 @@ class Memory{
                 }
             }
             if (control->signalValue("EB")){
-                if (control->signalValue("SE"){
+                if (control->signalValue("SE")){
                     control->setDataBus(executionBank);
                 }
                 else {
@@ -81,7 +81,7 @@ class Memory{
                 }
             }
             if (control->signalValue("LB")){
-                if (control->signalValue("SE"){
+                if (control->signalValue("SE")){
                     executionBank = control->getDataBus();
                 }
                 else {
