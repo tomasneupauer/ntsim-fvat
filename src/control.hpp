@@ -123,10 +123,6 @@ class Control{
             return instructionRegister;
         }
 
-        int getStep(){
-            return stepCounter;
-        }
-
         int getInterruptFlags(){
             return interruptFlags;
         }
@@ -135,11 +131,16 @@ class Control{
             return &portSignals;
         }
 
-        void dumpSignals(){
-            for (int i=0; i<signals.size(); i++){
-                cout << signals[i] << ' ';
+        void dumpControl(){
+            cout << "SIGNALS - ";
+            for (signal_t signal : signals){
+                cout << signal << ' ';
             }
-            cout << endl;
+            cout << "\nPORT SIGNALS - ";
+            for (signal_t signal : portSignals){
+                cout << signal << ' ';
+            }
+            printf("\nMAR - 0x%04X IR - 0x%02X STEP - 0x%02X\n", memoryAddressRegister, instructionRegister, stepCounter);
         }
 };
 

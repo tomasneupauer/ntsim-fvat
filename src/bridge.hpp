@@ -1,7 +1,6 @@
 #ifndef BRIDGE_HPP
 #define BRIDGE_HPP
 
-#include <vector>
 #include "globals.hpp"
 #include "control.hpp"
 using namespace std;
@@ -32,6 +31,10 @@ class Bridge{
                 portRegister = control->getDataBus();
             }
             // port device input
+        }
+
+        void dumpBridge(){
+            printf("PR - 0x%02X\n", portRegister);
         }
 };
 

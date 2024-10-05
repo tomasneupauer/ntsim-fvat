@@ -92,8 +92,9 @@ class Memory{
 
         void dumpMemory(){
             for (int i=0; i<memorySize; i++){
-                printf("0x%02X\n", randomAccessMemory[i]);
+                printf("0x%02X \n", randomAccessMemory[i]);
             }
+            cout << endl;
         }
 };
 

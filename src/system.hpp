@@ -156,6 +156,14 @@ class System{
                 }
             }
         }
+
+        void dumpSystem(){
+            cout << "GP - ";
+            for (byte_t reg : generalPurposeRegisters){
+                printf("%02X ", reg);
+            }
+            printf("\nPC - 0x%04X SP - 0x%04X LX - 0x%02X LY 0x%02X\n", programCounter, stackPointer, registerX, registerX);
+        }
 };
 
 #endif
