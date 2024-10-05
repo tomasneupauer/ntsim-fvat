@@ -16,12 +16,12 @@ STW     B
 MVW     0x00    F
 ADC     G       0x01
 MVW     0x00    F
-ADC     B       A
+ADC     A       B
 STW     A
 MVW     0x00    F
 ADC     G       0x01
 MVW     0x00    F
-ADC     A       B
+ADC     B       A
 PSH     G
 MVW     0x0f    G
 MVW     0x00    H
