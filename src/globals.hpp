@@ -15,7 +15,7 @@ vector<string> INSTRUCTIONS = {"MVW", "LDW", "STW", "PSH", "POP", "INB", "OUB", 
 
 vector<string> SIGNALS = {"LX", "LY", "LR", "LF", "LG", "LH", "LM", "LI", "LP", "EZ", "EF", "ER", "AR", "AC", "AS", "RC", "IC", "IS", "DS", "PI", "PO", "RI", "RO", "MO", "XT"};
 
-vector<string> LOOPBACK_SIGNALS = {"LC", "LS", "LB", "EC", "ES", "EB", "SE"};
+vector<string> PORT_SIGNALS = {"LC", "LS", "LB", "EC", "ES", "EB", "SE"};
 
 vector<string> INTERRUPTS = {"HLT", "INT", "COF", "SOF"};
 
@@ -47,7 +47,7 @@ vector<vector<int>> MICROCODE = {
     {4, 11, 19, 31, 35, 47, 51, 61, 68, 76, 84, 92, 100, 108, 149, 156, 166, 173, 182, 189, 198, 205, 214, 221, 230, 237, 246, 253, 114, 123, 130, 139}
 };
 
-vector<vector<int> LOOPBACK_PORTS = {
+vector<vector<int> LOOPBACK_TABLE = {
     {8, 9},
     {10, 11},
     {12, 13},
