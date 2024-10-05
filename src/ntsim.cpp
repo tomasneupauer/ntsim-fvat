@@ -195,10 +195,6 @@ class System{
         }
 
         void onLowStepClock(Control *control){
-            if (control->signalValue("ER"){
-                int selector = control.getOpcode() & 0x07;
-                control->setDataBus(generalPurposeRegisters[selector]);
-            }
             if (control->signalValue("EZ"){
                 int selector = control.getOpcode() >> 4;
                 byte_t registerZ = registerX;
@@ -240,6 +236,10 @@ class System{
                 }
                 control->setDataBus(flags);
             }
+            if (control->signalValue("ER"){
+                int selector = control.getOpcode() & 0x07;
+                control->setDataBus(generalPurposeRegisters[selector]);
+            }
             if (control->signalValue("AR"){
                 control->setAddressBus((addr_t)generalPurposeRegisters[7] << 8 & generalPurposeRegisters[6]);
                 
@@ -249,6 +249,37 @@ class System{
             }
             if (control->signalValue("AS"){
                 control->setAddressBus(stackPointer);
+            }
+        }
+
+        void onHighStepClock(Control *control){
+            if (control->signalValue("LX"){
+                registerX = control->getDataBus();
+            }
+            if (control->signalValue("LY"){
+                registerY = control->getDataBus();
+            }
+            if (control->signalValue("LR"){
+                int selector = control.getOpcode() & 0x07;
+                generalPurposeRegisters[selector] = control->getDataBus();
+            }
+            if (control->signalValue("LF"){
+                generalPurposeRegisters[5] = control->getDataBus();
+            }
+            if (control->signalValue("LG"){
+                generalPurposeRegisters[6] = control->getDataBus();
+            }
+            if (control->signalValue("LH"){
+                generalPurposeRegisters[7] = control->getDataBus();
+            }
+            if (control->signalValue("IC"){
+                
+            }
+            if (control->signalValue("IS"){
+                
+            }
+            if (control->signalValue("DS"){
+                
             }
         }
 };
