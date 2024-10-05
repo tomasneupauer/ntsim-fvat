@@ -250,6 +250,15 @@ class System{
             if (control->signalValue("AS"){
                 control->setAddressBus(stackPointer);
             }
+            if (control-signalValue("IC" && programCounter == 0xffff){
+                control->setInterruptFlag("COF");
+            }
+            if (control-signalValue("IS" && stackPointer == 0xffff){
+                control->setInterruptFlag("SOF");
+            }
+            if (control-signalValue("DS" && stackPointer == 0x0000){
+                control->setInterruptFlag("SOF");
+            }
         }
 
         void onHighStepClock(Control *control){
