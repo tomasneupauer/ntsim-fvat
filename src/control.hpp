@@ -6,7 +6,8 @@ using namespace std;
 
 class Control{
     private:
-        vector<signal_t> signals;       
+        vector<signal_t> signals;
+        vector<signal_t> portSignals;
         addr_t memoryAddressRegister;
         byte_t instructionRegister;
         byte_t stepCounter;
@@ -29,7 +30,8 @@ class Control{
 
     public:
         Control():
-            signals(SIGNALS.size(), 0)
+            signals(SIGNALS.size(), 0),
+            portSignals(PORT_SIGNALS.size(), 0)
         {
             resetBuses();
             memoryAddressRegister = 0;
@@ -43,6 +45,10 @@ class Control{
             int index = find(SIGNALS.begin(), SIGNALS.end(), name) - SIGNALS.begin();
             if (index < signals.size()){
                 return signals[index];
+            }
+            index = find(PORT_SIGNALS.begin(), PORT_SIGNALS.end(), name) - PORT_SIGNALS.begin();
+            if (index < portSignals.size()){
+                return portSignals[index];
             }
             return 0;
         }
@@ -123,6 +129,10 @@ class Control{
 
         int getInterruptFlags(){
             return interruptFlags;
+        }
+
+        vector<signal_t> *getPortSignalsPtr(){
+            return &portSignals;
         }
 
         void dumpSignals(){
