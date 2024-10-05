@@ -109,6 +109,10 @@ class Control{
             return 0;
         }
 
+        int getMemoryAddress(){
+            return memoryAddressRegister;
+        }
+
         int getOpcode(){
             return instructionRegister;
         }
