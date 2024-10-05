@@ -71,12 +71,12 @@ int assemble(FILE *infp, FILE *oufp){
                 write_imm8(oufp, arg_a);
             }
         }
-        else if (opcode >= 9 && opcode <=15){
+        else if (opcode >= 9 && opcode <= 15){
             next_token(infp, arg_a);
             next_token(infp, arg_b);
             if (strlen(arg_b) == 1){
-                write_instr(oufp, opcode, arg_a[0], 'R');
                 write_instr(oufp, opcode, arg_b[0], 'R');
+                write_instr(oufp, opcode, arg_a[0], 'R');
             }
             else {
                 write_instr(oufp, opcode, arg_a[0], 'I');
