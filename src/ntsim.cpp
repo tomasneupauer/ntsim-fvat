@@ -8,6 +8,7 @@
 #include "memory.hpp"
 using namespace std;
 
+#define VIDEO_SIZE 65536
 
 void waitForEnter(){
     cout << "Press ENTER to continue";
@@ -25,7 +26,7 @@ class StepEmulator{
 
     public:
         StepEmulator(FILE *ebf_fp):
-            memory(ebf_fp),
+            memory(ebf_fp, VIDEO_SIZE),
             system(),
             control()
         {
