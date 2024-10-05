@@ -4,6 +4,8 @@
 #include "globals.hpp"
 using namespace std;
 
+#define MEMORY_ALIGN 1024
+
 class Memory{
     private:
         byte_t *randomAccessMemory;
@@ -11,7 +13,17 @@ class Memory{
         byte_t memoryBank;
         byte_t executionBank;
 
-        
+        long_addr_t longAddress(addr_t memoryAddress, byte_t bankByte){
+            return ((long_addr_t)bankByte & 0x7f) << 16 | memoryAddress;
+        }
+
+        void storeWord (byte_t data, long_addr_t address){
+            if (address >= memorySize){
+                memorySize = (address / MEMORY_ALIGN + 1) * MEMORY_ALIGN;
+                randomAccessMemory = (byte_t*)realloc(randomAccessMemory, memorySize);
+            }
+            randomAccessMemory[address] = data;
+        }
 
     public:
         Memory(FILE *binfp){
@@ -26,7 +38,7 @@ class Memory{
 
         void onLowStepClock(Control *control){
             if (control->signalValue("RO")){
-                long_addr_t address = (long_addr_t)memoryBank << 16 | control->getMemoryAddress();
+                long_addr_t address = longAddress(control->getMemoryAddress(), memoryBank);
                 if (address < memorySize){
                     control->setDataBus(randomAccessMemory[address]);
                 }
@@ -35,12 +47,24 @@ class Memory{
                 }
             }
             if (control->signalValue("MO")){
-                long_addr_t address = (long_addr_t)executionBank << 16 | control->getMemoryAddress();
+                long_addr_t address = longAddress(control->getMemoryAddress(), executionBank);
                 if (address < memorySize){
                     control->setDataBus(randomAccessMemory[address]);
                 }
                 else{
                     control->setDataBus(0);
+                }
+            }
+        }
+
+        void onHighStepClock(Control *control){
+            if (control->signalValue("RI")){
+                long_addr_t address = longAddress(control->getMemoryAddress(), memoryBank);
+                if (memoryBank & 0x80){
+                    //write VRAM
+                }
+                else {
+                    storeWord(control->getDataBus, address);
                 }
             }
         }
