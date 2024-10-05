@@ -145,20 +145,20 @@ class Control{
 
 class Memory{
     private:
-        byte_t *mem_block; // Random Access Memory
-        size_t mem_size;
-        byte_t mem_bank; // Memory Bank Register
-        byte_t exc_bank; // Execution Bank Register
+        byte_t *randomAccessMemory;
+        size_t memorySize;
+        byte_t memoryBank;
+        byte_t executionBank;
     
     public:
-        Memory(FILE *ebf_fp){
-            fseek(ebf_fp, 0, SEEK_END);
-            mem_size = ftell(ebf_fp);
-            mem_block = (byte_t*)malloc(mem_size*sizeof(byte_t));
-            fseek(ebf_fp, 0, SEEK_SET);
-            fread(mem_block, sizeof(*mem_block), mem_size, ebf_fp);
-            mem_bank = 0;
-            exc_bank = 0;
+        Memory(FILE *binfp){
+            fseek(binfp, 0, SEEK_END);
+            memorySize = ftell(binfp);
+            randomAccessMemory = (byte_t*)malloc(memorySize*sizeof(byte_t));
+            fseek(binfp, 0, SEEK_SET);
+            fread(randomAccessMemory, sizeof(byte_t), memorySize, binfp);
+            memoryBank = 0;
+            executionBank = 0;
         }
 
         void onLowStepClock(Control *control){
@@ -166,8 +166,8 @@ class Memory{
         }
 
         void dumpMemory(){
-            for (int i=0; i<mem_size; i++){
-                printf("0x%02X\n", mem_block[i]);
+            for (int i=0; i<memorySize; i++){
+                printf("0x%02X\n", randomAccessMemory[i]);
             }
         }
 };
@@ -195,8 +195,8 @@ class System{
         }
 
         void onLowStepClock(Control *control){
-            if (control->signalValue("EZ"){
-                int selector = control.getOpcode() >> 4;
+            if (control->signalValue("EZ")){
+                int selector = control->getOpcode() >> 4;
                 byte_t registerZ = registerX;
                 switch (selector){
                     case 10:
@@ -220,8 +220,8 @@ class System{
                 }
                 control->setDataBus(registerZ);
             }
-            if (control->signalValue("EF"){
-                int selector = control.getOpcode() >> 4;
+            if (control->signalValue("EF")){
+                int selector = control->getOpcode() >> 4;
                 byte_t flags = (registerX > registerY) << 1 | (registerX < registerY) << 2 | (registerX == registerY) << 3;
                 switch (selector){
                     case 13:
@@ -236,58 +236,58 @@ class System{
                 }
                 control->setDataBus(flags);
             }
-            if (control->signalValue("ER"){
-                int selector = control.getOpcode() & 0x07;
+            if (control->signalValue("ER")){
+                int selector = control->getOpcode() & 0x07;
                 control->setDataBus(generalPurposeRegisters[selector]);
             }
-            if (control->signalValue("AR"){
+            if (control->signalValue("AR")){
                 control->setAddressBus((addr_t)generalPurposeRegisters[7] << 8 & generalPurposeRegisters[6]);
                 
             }
-            if (control->signalValue("AC"){
+            if (control->signalValue("AC")){
                 control->setAddressBus(programCounter);
             }
-            if (control->signalValue("AS"){
+            if (control->signalValue("AS")){
                 control->setAddressBus(stackPointer);
             }
-            if (control-signalValue("IC" && programCounter == 0xffff){
+            if (control->signalValue("IC") && programCounter == 0xffff){
                 control->setInterruptFlag("COF");
             }
-            if (control-signalValue("IS" && stackPointer == 0xffff){
+            if (control->signalValue("IS") && stackPointer == 0xffff){
                 control->setInterruptFlag("SOF");
             }
-            if (control-signalValue("DS" && stackPointer == 0x0000){
+            if (control->signalValue("DS") && stackPointer == 0x0000){
                 control->setInterruptFlag("SOF");
             }
         }
 
         void onHighStepClock(Control *control){
-            if (control->signalValue("LX"){
+            if (control->signalValue("LX")){
                 registerX = control->getDataBus();
             }
-            if (control->signalValue("LY"){
+            if (control->signalValue("LY")){
                 registerY = control->getDataBus();
             }
-            if (control->signalValue("LR"){
-                int selector = control.getOpcode() & 0x07;
+            if (control->signalValue("LR")){
+                int selector = control->getOpcode() & 0x07;
                 generalPurposeRegisters[selector] = control->getDataBus();
             }
-            if (control->signalValue("LF"){
+            if (control->signalValue("LF")){
                 generalPurposeRegisters[5] = control->getDataBus();
             }
-            if (control->signalValue("LG"){
+            if (control->signalValue("LG")){
                 generalPurposeRegisters[6] = control->getDataBus();
             }
-            if (control->signalValue("LH"){
+            if (control->signalValue("LH")){
                 generalPurposeRegisters[7] = control->getDataBus();
             }
-            if (control->signalValue("IC"){
+            if (control->signalValue("IC")){
                 programCounter++;
             }
-            if (control->signalValue("IS"){
+            if (control->signalValue("IS")){
                 stackPointer++;
             }
-            if (control->signalValue("DS"){
+            if (control->signalValue("DS")){
                 stackPointer--;
             }
         }
