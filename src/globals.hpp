@@ -15,9 +15,19 @@ vector<string> INSTRUCTIONS = {"MVW", "LDW", "STW", "PSH", "POP", "INB", "OUB", 
 
 vector<string> SIGNALS = {"LX", "LY", "LR", "LF", "LG", "LH", "LM", "LI", "LP", "EZ", "EF", "ER", "AR", "AC", "AS", "RC", "IC", "IS", "DS", "PI", "PO", "RI", "RO", "MO", "XT"};
 
-vector<string> PORT_SIGNALS = {"LC", "LS", "EC", "ES", "LB", "LE"};
-
 vector<string> INTERRUPTS = {"HLT", "INT", "COF", "SOF"};
+
+vector<string> LOOPBACK_SIGNALS = {"LC", "LS", "LB", "EC", "ES", "EB", "SE"};
+
+vector<vector<int> LOOPBACK_PORTS = {
+    {8, 9},
+    {10, 11},
+    {12, 13},
+    {0, 1},
+    {2, 3},
+    {4, 5},
+    {1, 3, 5, 9, 11, 13}
+}
 
 vector<vector<int>> MICROCODE = {
     {2, 59, 146, 154, 162, 170, 178, 186, 194, 202, 210, 218, 226, 234, 242, 250},
