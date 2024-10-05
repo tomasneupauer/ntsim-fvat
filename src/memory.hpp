@@ -1,7 +1,7 @@
 #ifndef MEMORY_HPP
 #define MEMORY_HPP
 
-#include <globals.h>
+#include "globals.hpp"
 using namespace std;
 
 class Memory{
@@ -10,7 +10,9 @@ class Memory{
         size_t memorySize;
         byte_t memoryBank;
         byte_t executionBank;
-    
+
+        
+
     public:
         Memory(FILE *binfp){
             fseek(binfp, 0, SEEK_END);
@@ -23,7 +25,24 @@ class Memory{
         }
 
         void onLowStepClock(Control *control){
-            
+            if (control->signalValue("RO")){
+                long_addr_t address = (long_addr_t)memoryBank << 16 | control->getMemoryAddress();
+                if (address < memorySize){
+                    control->setDataBus(randomAccessMemory[address]);
+                }
+                else{
+                    control->setDataBus(0);
+                }
+            }
+            if (control->signalValue("MO")){
+                long_addr_t address = (long_addr_t)executionBank << 16 | control->getMemoryAddress();
+                if (address < memorySize){
+                    control->setDataBus(randomAccessMemory[address]);
+                }
+                else{
+                    control->setDataBus(0);
+                }
+            }
         }
 
         void dumpMemory(){
