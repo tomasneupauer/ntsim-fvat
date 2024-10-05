@@ -1,9 +1,7 @@
 #include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
 #include <cstdio>
 #include "control.hpp"
+#include "bridge.hpp"
 #include "system.hpp"
 #include "memory.hpp"
 using namespace std;
@@ -19,16 +17,18 @@ void waitForEnter(){
 
 class StepEmulator{
     private:
+        Control control;
+        Bridge bridge;
         Memory memory;
         System system;
-        Control control;
         bool clock;
 
     public:
         StepEmulator(FILE *ebf_fp):
             memory(ebf_fp, VIDEO_SIZE),
-            system(),
-            control()
+            control(),
+            bridge(),
+            system()
         {
             clock = 0;
         }
@@ -37,18 +37,24 @@ class StepEmulator{
             while (!control.getInterruptFlags()) {
                 if (!clock){
                     control.onLowStepClock();
+                    bridge.onLowStepClock(&control);
                     memory.onLowStepClock(&control);
                     system.onLowStepClock(&control);
                     if (control.branchSignals()){
                         system.onLowStepClock(&control);
                     }
-                    cout << clock << ' ' << control.getStep() << endl;
-                    control.dumpSignals();
                 }
                 else {
-                    cout << clock << ' ' << control.getStep() << endl;
-                    control.dumpSignals();
+                    control.onHighStepClock();
+                    bridge.onHighStepClock(&control);
+                    memory.onHighStepClock(&control);
+                    system.onHighStepClock(&control);
                 }
+                cout << clock << endl;
+                control.dumpControl();
+                system.dumpSystem();
+                bridge.dumpBridge();
+                memory.dumpMemory();
                 //update out
                 waitForEnter();
                 clock = !clock;
