@@ -184,8 +184,8 @@ class System{
         System():
             generalPurposeRegisters(8, 0)
         {
-            program_counter = 0;
-            stack_pointer = 0;
+            programCounter = 0;
+            stackPointer = 0;
             registerX = 0;
             registerY = 0;
         }
@@ -282,13 +282,13 @@ class System{
                 generalPurposeRegisters[7] = control->getDataBus();
             }
             if (control->signalValue("IC"){
-                
+                programCounter++;
             }
             if (control->signalValue("IS"){
-                
+                stackPointer++;
             }
             if (control->signalValue("DS"){
-                
+                stackPointer--;
             }
         }
 };
