@@ -2,6 +2,7 @@
 #define MEMORY_HPP
 
 #include "globals.hpp"
+#include "control.hpp"
 using namespace std;
 
 #define MEMORY_ALIGN 1024
@@ -58,6 +59,14 @@ class Memory{
                     control->setDataBus(0);
                 }
             }
+            if (control->signalValue("EB")){
+                if (control->signalValue("SE"){
+                    control->setDataBus(executionBank);
+                }
+                else {
+                    control->setDataBus(memoryBank);
+                }
+            }
         }
 
         void onHighStepClock(Control *control){
@@ -69,6 +78,14 @@ class Memory{
                 else {
                     reallocateMemory(address);
                     randomAccessMemory[address] = control->getDataBus();
+                }
+            }
+            if (control->signalValue("LB")){
+                if (control->signalValue("SE"){
+                    executionBank = control->getDataBus();
+                }
+                else {
+                    memoryBank = control->getDataBus();
                 }
             }
         }
