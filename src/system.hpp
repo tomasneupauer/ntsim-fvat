@@ -42,7 +42,7 @@ class System{
                         registerZ = ~(registerX | registerY);
                         break;
                     case 13:
-                        registerZ = registerX >> 1 & getCarryFlag() << 7;
+                        registerZ = registerX >> 1 | getCarryFlag() << 7;
                         break;
                     case 14:
                         registerZ = registerX + registerY + getCarryFlag();
@@ -74,7 +74,7 @@ class System{
                 control->setDataBus(generalPurposeRegisters[selector]);
             }
             if (control->signalValue("AR")){
-                control->setAddressBus((addr_t)generalPurposeRegisters[7] << 8 & generalPurposeRegisters[6]);
+                control->setAddressBus((addr_t)generalPurposeRegisters[7] << 8 | generalPurposeRegisters[6]);
                 
             }
             if (control->signalValue("AC")){
@@ -130,6 +130,9 @@ class System{
             if (control->signalValue("LH")){
                 generalPurposeRegisters[7] = control->getDataBus();
             }
+            if (control->signalValue("RC")){
+                programCounter = control->getAddressBus();
+            }
             if (control->signalValue("IC")){
                 programCounter++;
             }
@@ -162,7 +165,7 @@ class System{
             for (byte_t reg : generalPurposeRegisters){
                 printf("%02X ", reg);
             }
-            printf("\nPC - 0x%04X SP - 0x%04X LX - 0x%02X LY 0x%02X\n", programCounter, stackPointer, registerX, registerX);
+            printf("\nPC - 0x%04X SP - 0x%04X LX - 0x%02X LY 0x%02X\n", programCounter, stackPointer, registerX, registerY);
         }
 };
 

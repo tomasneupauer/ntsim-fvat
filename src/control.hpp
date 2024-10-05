@@ -41,12 +41,16 @@ class Control{
             signalState = 0;
         }
 
+        int signalIndex(vector<string> *set, string name){
+            return find(set->begin(), set->end(), name) - set->begin();
+        }
+
         signal_t signalValue(string name){
-            int index = find(SIGNALS.begin(), SIGNALS.end(), name) - SIGNALS.begin();
+            int index = signalIndex(&SIGNALS, name);
             if (index < signals.size()){
                 return signals[index];
             }
-            index = find(PORT_SIGNALS.begin(), PORT_SIGNALS.end(), name) - PORT_SIGNALS.begin();
+            index = signalIndex(&PORT_SIGNALS, name);
             if (index < portSignals.size()){
                 return portSignals[index];
             }
@@ -54,7 +58,7 @@ class Control{
         }
 
         void setInterruptFlag(string flag){
-            int index = find(INTERRUPTS.begin(), INTERRUPTS.end(), flag) - INTERRUPTS.begin();
+            int index = signalIndex(&INTERRUPTS, flag);
             if (index < INTERRUPTS.size()){
                 interruptFlags |= 0x01 << index;
             }
@@ -98,9 +102,10 @@ class Control{
 
         int branchSignals(){
             if (dataBus != 0){
+                cout << "nz" << endl;
                 if (signalState == 114 || signalState == 123){
-                    signals[signalValue("AR")] = 1;
-                    signals[signalValue("RC")] = 1;
+                    signals[signalIndex(&SIGNALS, "AR")] = 1;
+                    signals[signalIndex(&SIGNALS, "RC")] = 1;
                     return 1;
                 }
                 else if (signalState == 130 || signalState == 139){
@@ -109,7 +114,7 @@ class Control{
                 }
             }
             else if (signalState == 123 || signalState == 139){
-                signals[signalValue("IC")] = 1;
+                signals[signalIndex(&SIGNALS, "IC")] = 1;
                 return 1;
             }
             return 0;
@@ -133,14 +138,19 @@ class Control{
 
         void dumpControl(){
             cout << "SIGNALS - ";
-            for (signal_t signal : signals){
-                cout << signal << ' ';
+            for (int i=0; i<signals.size(); i++){
+                if (signals[i]){
+                    cout << SIGNALS[i] << ' ';
+                }
             }
             cout << "\nPORT SIGNALS - ";
-            for (signal_t signal : portSignals){
-                cout << signal << ' ';
+            for (int i=0; i<portSignals.size(); i++){
+                if (portSignals[i]){
+                    cout << PORT_SIGNALS[i] << ' ';
+                }
             }
-            printf("\nMAR - 0x%04X IR - 0x%02X STEP - 0x%02X\n", memoryAddressRegister, instructionRegister, stepCounter);
+            printf("\nDATA - 0x%02X ADDR - 0x%04X\n", dataBus, addressBus);
+            printf("MAR - 0x%04X IR - 0x%02X STEP - 0x%02X\n", memoryAddressRegister, instructionRegister, stepCounter);
         }
 };
 
