@@ -164,7 +164,7 @@
   - AS - `( SP(H) << 8 ) | SP(G) -> A`
   - `( PC(H+) > 255 ) | ( PC(H-) < 0 ) -> SOF`
 
-## Memory Adderss Register - MAR
+## Memory Address Register - MAR
 
 - Description:
   - Points to data in the random access memory
