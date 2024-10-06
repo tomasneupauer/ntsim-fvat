@@ -100,12 +100,13 @@
   - A - Output address
   - i - Carry / Borrow flag
 - Function:
-  - LR - `D -> REG(A-H) ( OP & 0x07 )`
-  - LF - `D -> REG(F)`
-  - LG - `D -> REG(G)`
-  - LH - `D -> REG(H)`
-  - ER - `REG(A-H) -> D ( OP & 0x07 )`
-  - AR - `( REG(H) << 8 ) | REG(G) -> A`
+  - LR - `D -> GPR(A-H) ( OP & 0x07 )`
+  - LF - `D -> GPR(F)`
+  - LG - `D -> GPR(G)`
+  - LH - `D -> GPR(H)`
+  - ER - `GPR(A-H) -> D ( OP & 0x07 )`
+  - AR - `( GPR(H) << 8 ) | GPR(G) -> A`
+  - `GPR(F) & 1 -> i`
 
 ## Program Counter - PC
 
@@ -130,9 +131,9 @@
   - COF - Counter overflow flag
 - Function:
   - IC - `PC(G) + 1 -> PC(G+) @ PC(H) + ( PC(G+) > 255 ) -> PC(H+)`
-  - LC - `D -> PC(S) ( 0-G 1-H )`
+  - LC - `D -> PC(SE) ( 0-G 1-H )`
   - RC - `( A & 255 ) -> PC(G) @ ( A >> 8 ) -> PC(H)`
-  - EC - `PC(S) -> D ( 0-G 1-H )`
+  - EC - `PC(SE) -> D ( 0-G 1-H )`
   - AC - `( PC(H) << 8 ) | PC(G) -> A`
   - `PC(H+) > 255 -> COF`
 
@@ -159,8 +160,8 @@
 - Function:
   - IS - `SP(G) + 1 -> SP(G+) @ SP(H) + ( SP(G+) > 255 ) -> SP(H+)`
   - DS - `SP(G) - 1 -> SP(G-) @ SP(H) - ( SP(G-) < 0 ) -> SP(H-)`
-  - LS - `D -> SP(S) ( 0-G 1-H )`
-  - ES - `SP(S) -> D ( 0-G 1-H )`
+  - LS - `D -> SP(SE) ( 0-G 1-H )`
+  - ES - `SP(SE) -> D ( 0-G 1-H )`
   - AS - `( SP(H) << 8 ) | SP(G) -> A`
   - `( PC(H+) > 255 ) | ( PC(H-) < 0 ) -> SOF`
 
@@ -178,6 +179,7 @@
   - A - Output address
 - Function:
   - LM - `A -> MAR`
+  - `MAR -> A`
 
 ## Instruction Register - IR
 
@@ -208,8 +210,8 @@
   - XT - Reset step counter
   - R - Reset control
 - Outputs:
-  - T - Current step
   - C - Clock control
+  - T - Current step
 - Function:
   - XT - `~XT ? 0 : ( SC + 1 ) -> SC+`
   - `~( HLT | INT | COF | SOF ) & CLK -> C`
