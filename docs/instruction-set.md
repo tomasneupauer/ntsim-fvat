@@ -5,8 +5,8 @@
 - Description:
   - Moves word to register A from register B or imm8
 - Assembly:
-  - `MVW     T-reg   S-reg   `
-  - `MVW     T-reg   D-imm8  `
+  - `MVW     T (reg)     S (reg)`
+  - `MVW     T (reg)     D (imm8)`
 - Byte order:
   - `00000SSS 00000TTT`
   - `00001TTT DDDDDDDD`
