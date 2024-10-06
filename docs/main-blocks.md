@@ -1,15 +1,15 @@
 # Main Blocks
 
-- [Central Control Unit](#central-control-unit)
-- [Arithmetic Logic Unit](#arithmetic-logic-unit)
-- [General Purpose Registers](#general-purpose-registers)
-- [Program Counter](#program-counter)
-- [Stack Pointer](#stack-pointer)
-- [Memory Address Register](#memory-address-register)
-- [Instruction Register](#instruction-register)
-- [Step Counter](#step-counter)
+- [Central Control Unit - CCU](#central-control-unit---ccu)
+- [Arithmetic Logic Unit - ALU](#arithmetic-logic-unit---alu)
+- [General Purpose Registers - GPR](#general-purpose-registers---gpr)
+- [Program Counter - PC](#program-counter---pc)
+- [Stack Pointer - SP](#stack-pointer---sp)
+- [Memory Address Register - MAR](#memory-address-register---mar)
+- [Instruction Register - IR](#instruction-register---ir)
+- [Step Counter - SC](#step-counter---sc)
 
-## Central Control Unit
+## Central Control Unit - CCU
 
 - Description:
   - Decodes current instruction to microcode
@@ -18,36 +18,36 @@
   - O - OP Code
   - T - Current step
 - Outputs:
-  - LX
-  - LY
-  - LR
-  - LF
-  - LG
-  - LH
-  - LM
-  - LI
-  - LP
-  - EZ
-  - EF
-  - ER
-  - AR
-  - AC
-  - AS
-  - RC
-  - IC
-  - IS
-  - DS
-  - PI
-  - PO
-  - RI
-  - RO
-  - MO
-  - XT
-  - HF
+  - LX - Load ALU register X
+  - LY - Load ALU register Y
+  - EZ - Enable ALU result Z
+  - EF - Enable ALU flags
+  - LR - Load GPR register A-H
+  - LF - Load GPR flag register F
+  - LG - Load GPR low address register G
+  - LH - Load GPR high address register H
+  - ER - Enable GPR register A-H
+  - AR - Enable GPR GH address
+  - IC - Increment PC address
+  - RC - Load PC address
+  - AC - Enable PC address
+  - IS - Increment SP address
+  - DS - Decrement SP address
+  - AS - Enable SP address
+  - LM - Load memory address register
+  - LI - Load instruction register
+  - XT - Reset step counter
+  - LP - Load port register
+  - PI - Port input signal
+  - PO - Port output signal
+  - RI - Random access memory input signal
+  - RO - Random access memory output signal
+  - MO - Program memory output signal
+  - HLT - Halt flag
 - Function:
-  - For detailed function see [Signal functions](signal-functions.md) and [Microcode](microcode.md)
+  - For detailed function see [Microcode](microcode.md)
 
-## Arithmetic Logic Unit
+## Arithmetic Logic Unit - ALU
 
 - Description:
   - Performs arithmetic and logic operations on a pair of bytes
@@ -56,10 +56,10 @@
 - Inputs:
   - D - Input data
   - O - OP Code
-  - LX - Load register X
-  - LY - Load register Y
-  - EZ - Enable result Z
-  - EF - Enable flags
+  - LX - Load ALU register X
+  - LY - Load ALU register Y
+  - EZ - Enable ALU result Z
+  - EF - Enable ALU flags
   - R - Reset control
   - C - Clock control
   - i - Carry / Borrow in
@@ -78,7 +78,7 @@
   - 0xEX - `CMP(X, Y) -> F @ ADC(X, Y, i) -> Z`
   - 0xFX - `CMP(X, Y) -> F @ SBB(X, Y, i) -> Z`
 
-## General Purpose Registers
+## General Purpose Registers - GPR
 
 - Description:
   - Contains 8 general purpose registers
@@ -87,12 +87,12 @@
 - Inputs:
   - D - Input data
   - O - OP Code
-  - LR - Load register data
-  - LF - Load flags byte
-  - LG - Load low address byte
-  - LH - Load high address byte
-  - ER - Enable register data
-  - AR - Enable register address
+  - LR - Load GPR register A-H
+  - LF - Load GPR flag register F
+  - LG - Load GPR low address register G
+  - LH - Load GPR high addres register H
+  - ER - Enable GPR register A-H
+  - AR - Enable GPR GH address
   - R - Reset control
   - C - Clock control
 - Outputs:
@@ -107,7 +107,7 @@
   - ER - `REG(A-H) -> D ( OP & 0x07 )`
   - AR - `( REG(H) << 8 ) | REG(G) -> A`
 
-## Program Counter
+## Program Counter - PC
 
 - Description:
   - Points to the next instruction in memory
@@ -116,18 +116,18 @@
 - Inputs:
   - D - Input data
   - A - Input address
-  - IC - Increment program counter
-  - LC - Load program counter data
-  - RC - Load program counter address
-  - EC - Enable program counter data
-  - AC - Enable program counter address
-  - S - Select control
+  - IC - Increment PC address
+  - LC - Load PC data
+  - RC - Load PC address
+  - EC - Enable PC data
+  - AC - Enable PC address
+  - SE - Select signal
   - R - Reset control
   - C - Clock control
 - Outputs:
   - D - Output data
   - A - Output address
-  - COF - Counter overflow
+  - COF - Counter overflow flag
 - Function:
   - IC - `PC(G) + 1 -> PC(G+) @ PC(H) + ( PC(G+) > 255 ) -> PC(H+)`
   - LC - `D -> PC(S) ( 0-G 1-H )`
@@ -136,7 +136,7 @@
   - AC - `( PC(H) << 8 ) | PC(G) -> A`
   - `PC(H+) > 255 -> COF`
 
-## Stack Pointer
+## Stack Pointer - SP
 
 - Description:
   - Points to the top of stack memory
@@ -144,18 +144,18 @@
   - Increments or decrements stored adderess
 - Inputs:
   - D - Input data
-  - IS - Increment stack pointer
-  - DS - Decrement stack pointer
-  - LS - Load stack pointer data
-  - ES - Enable stack pointer data
-  - AS - Enable stack pointer address
-  - S - Select control
+  - IS - Increment SP address
+  - DS - Decrement SP address
+  - LS - Load SP data
+  - ES - Enable SP data
+  - AS - Enable SP address
+  - SE - Select signal
   - R - Reset control
   - C - Clock control
 - Outputs:
   - D - Output data
   - A - Output address
-  - SOF - Stack overflow
+  - SOF - Stack overflow flag
 - Function:
   - IS - `SP(G) + 1 -> SP(G+) @ SP(H) + ( SP(G+) > 255 ) -> SP(H+)`
   - DS - `SP(G) - 1 -> SP(G-) @ SP(H) - ( SP(G-) < 0 ) -> SP(H-)`
@@ -164,7 +164,7 @@
   - AS - `( SP(H) << 8 ) | SP(G) -> A`
   - `( PC(H+) > 255 ) | ( PC(H-) < 0 ) -> SOF`
 
-## Memory Adderss Register
+## Memory Adderss Register - MAR
 
 - Description:
   - Points to data in the random access memory
@@ -179,7 +179,7 @@
 - Function:
   - LM - `A -> MAR`
 
-## Instruction Register
+## Instruction Register - IR
 
 - Description:
   - Stores current instruction
@@ -194,7 +194,7 @@
   - LI - `D -> IR`
   - `IR -> O`
 
-## Step Counter
+## Step Counter - SC
 
 - Description:
   - Stores current step
