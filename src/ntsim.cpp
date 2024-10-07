@@ -4,16 +4,10 @@
 #include "bridge.hpp"
 #include "system.hpp"
 #include "memory.hpp"
+#include "ascii-render.hpp"
 using namespace std;
 
 #define VIDEO_SIZE 65536
-
-void waitForEnter(){
-    cout << "Press ENTER to continue";
-    cout.flush();
-    string null;
-    getline(cin, null);
-}
 
 class StepEmulator{
     private:
@@ -54,8 +48,7 @@ class StepEmulator{
                 control.dumpControl();
                 system.dumpSystem();
                 bridge.dumpBridge();
-                memory.dumpMemory();
-                //update out
+                updateAsciiRender(&control, &bridge, &system, &memory);
                 waitForEnter();
                 clock = !clock;
             }
