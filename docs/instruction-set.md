@@ -3,6 +3,7 @@
 ## MVW - Move word
 
 - Description:
+  - Moves a word between registers
 - Assembly:
   - `MVW    T (reg)     S (reg)`
   - `MVW    T (reg)     D (imm8)`
@@ -16,6 +17,7 @@
 ## STW - Store word
 
 - Description:
+  - Stores a word from a register to random access memory
 - Assembly:
   - `STW    S (reg)`
   - `STW    A (imm16)   S (reg)`
@@ -29,6 +31,7 @@
 ## LDW - Load word
 
 - Description:
+  - Loads a word from random access memory to a register
 - Assembly:
   - `LDW    T (reg)`
   - `LDW    A (imm16)   T (reg)`
@@ -42,6 +45,7 @@
 ## PSH - Stack push
 
 - Description:
+  - Pushes a word onto the stack
 - Assembly:
   - `PSH    S (reg)`
   - `PSH    D (imm8)`
@@ -55,6 +59,7 @@
 ## POP - Stack pop
 
 - Description:
+  - Pops a word from the stack
 - Assembly:
   - `POP    T (reg)`
   - `POP    T (reg)`
@@ -68,6 +73,7 @@
 ## PIN - Port in
 
 - Description:
+  - Receives a word from a port device
 - Assembly:
   - `PIN    T (reg)     S (reg)`
   - `PIN    T (reg)     D (imm8)`
@@ -81,6 +87,7 @@
 ## PUT - Port out
 
 - Description:
+  - Sends a word to a port device
 - Assembly:
   - `PUT    S (reg)     T (reg)`
   - `PUT    S (reg)     D (imm8)`
@@ -94,6 +101,7 @@
 ## JNZ - Jump if not zero
 
 - Description:
+  - Performs conditional jump
 - Assembly:
   - `JNZ    S (reg)`
   - `JNZ    D (imm8)`
@@ -107,6 +115,7 @@
 ## HNZ - Halt if not zero
 
 - Description:
+  - Performs conditional halt
 - Assembly:
   - `HNZ    S (reg)`
   - `HNZ    D (imm8)`
@@ -120,7 +129,7 @@
 ## CMP - Compare words
 
 - Description:
-  - Performs a comparsion on a pair of words
+  - Performs a comparison on a pair of words
 - Assembly:
   - `CMP    T (reg)     S (reg)`
   - `CMP    T (reg)     D (imm8)`
@@ -128,9 +137,8 @@
   - `10010SSS 10010TTT`
   - `10011TTT DDDDDDDD`
 - Function:
-  - `( GPR[S] > GPR[T] ) -> g @ ( GPR[S] < GPR[T] ) -> l @ ( GPR[S] == GPR[T] ) -> e`
-  - `( GPR[T] > D ) -> g @ ( GPR[T] < D ) -> l @ ( GPR[T] == D ) -> e`
-  - `( e << 3 ) & ( l << 2 ) & ( g << 1 ) & o -> GPR[F]`
+  - `CMP(GPR[T], GPR[S]) -> GPR[F]`
+  - `CMP(GPR[T], D) -> GPR[F]`
 
 ## AND - Bitwise AND
 
@@ -143,8 +151,8 @@
   - `10100SSS 10100TTT`
   - `10101TTT DDDDDDDD`
 - Function:
-  - `GPR[T] & GPR[S] -> GPR[T]`
-  - `GPR[T] & D -> GPR[T]`
+  - `AND(GPR[T], GPR[S]) -> GPR[T]`
+  - `AND(GPR[T], D) -> GPR[T]`
 
 ## ORR - Bitwise OR
 
@@ -157,8 +165,8 @@
   - `10110SSS 10110TTT`
   - `10111TTT DDDDDDDD`
 - Function:
-  - `GPR[T] | GPR[S] -> GPR[T]`
-  - `GPR[T] | D -> GPR[T]`
+  - `OR(GPR[T], GPR[S]) -> GPR[T]`
+  - `OR(GPR[T], D) -> GPR[T]`
 
 ## NOR - Bitwise NOR
 
@@ -171,8 +179,8 @@
   - `11000SSS 11000TTT`
   - `11001TTT DDDDDDDD`
 - Function:
-  - `~( GPR[T] | GPR[S] ) -> GPR[T]`
-  - `~( GPR[T] | D ) -> GPR[T]`
+  - `NOR(GPR[T], GPR[S]) -> GPR[T]`
+  - `NOR(GPR[T], D) -> GPR[T]`
 
 ## SFR - Right shift
 
@@ -185,8 +193,8 @@
   - `11010SSS 11010TTT`
   - `11011TTT DDDDDDDD`
 - Function:
-  - `( GPR[S] >> 1 ) & ( i << 7 ) -> GPR[T]`
-  - `( D >> 1 ) & ( i << 7 ) -> GPR[T]`
+  - `SFR(GPR[S]) -> GPR[T]`
+  - `SFR(D) -> GPR[T]`
 
 ## ADC - Add with carry
 
@@ -199,8 +207,8 @@
   - `11100SSS 11100TTT`
   - `11101TTT DDDDDDDD`
 - Function:
-  - `GPR[T] + GPR[S] + i -> GPR[T]`
-  - `GPR[T] + D + i -> GPR[T]`
+  - `ADC(GPR[T], GPR[S]) -> GPR[T]`
+  - `ADC(GPR[T], D) -> GPR[T]`
 
 ## SBB - Subtract with borrow
 
@@ -213,6 +221,6 @@
   - `11110SSS 11110TTT`
   - `11111TTT DDDDDDDD`
 - Function:
-  - `GPR[T] - GPR[S] + i -> GPR[T]`
-  - `GPR[T] - D + i -> GPR[T]`
+  - `SBB(GPR[T], GPR[S]) -> GPR[T]`
+  - `SBB(GPR[T], D) -> GPR[T]`
 
