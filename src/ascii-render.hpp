@@ -1,5 +1,5 @@
-#ifndef ASCII-RENDER_HPP
-#define ASCII-RENDER_HPP
+#ifndef ASCII_RENDER_HPP
+#define ASCII_RENDER_HPP
 
 #include <vector>
 #include <string>

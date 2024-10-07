@@ -64,7 +64,7 @@ class Memory{
 
         void onHighStepClock(Control *control){
             if (control->signalValue("RI")){
-                long_addr_t address = longAddress(control->getMemoryAddress(), memoryBank);
+                long_addr_t address = control->longAddress(memoryBank);
                 if (memoryBank & 0x80 && address < videoSize){
                     videoMemory[address] = control->getDataBus();
                 }
