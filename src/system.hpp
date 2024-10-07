@@ -42,7 +42,7 @@ class System{
                         registerZ = ~(registerX | registerY);
                         break;
                     case 13:
-                        registerZ = registerX >> 1 | getCarryFlag() << 7;
+                        registerZ = registerY >> 1 | getCarryFlag() << 7;
                         break;
                     case 14:
                         registerZ = registerX + registerY + getCarryFlag();
@@ -58,7 +58,7 @@ class System{
                 byte_t flags = (registerX > registerY) << 1 | (registerX < registerY) << 2 | (registerX == registerY) << 3;
                 switch (selector){
                     case 13:
-                        flags |= registerX & 0x01;
+                        flags |= registerY & 0x01;
                         break;
                     case 14:
                         flags |= (registerX + registerY + getCarryFlag()) > 255;
@@ -158,6 +158,26 @@ class System{
                     stackPointer = stackPointer & 0xff00 | control->getDataBus();
                 }
             }
+        }
+
+        byte_t getRegister(int selector){
+            return generalPurposeRegisters[selector];
+        }
+
+        byte_t getRegisterX(){
+            return registerX;
+        }
+
+        byte_t getRegisterY(){
+            return registerY;
+        }
+
+        addr_t getProgramCounter(){
+            return programCounter;
+        }
+
+        addr_t getStackPointer(){
+            return stackPointer;
         }
 
         void dumpSystem(){

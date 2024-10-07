@@ -123,12 +123,16 @@ class Control{
             return 0;
         }
 
-        int getMemoryAddress(){
+        int getMemoryAddressRegister(){
             return memoryAddressRegister;
         }
 
         int getOpcode(){
             return instructionRegister;
+        }
+
+        int getStepCounter(){
+            return stepCounter;
         }
 
         int getInterruptFlags(){

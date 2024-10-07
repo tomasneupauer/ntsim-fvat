@@ -48,7 +48,7 @@ class StepEmulator{
                 control.dumpControl();
                 system.dumpSystem();
                 bridge.dumpBridge();
-                updateAsciiRender(&control, &bridge, &system, &memory);
+                updateAsciiRender(&control, &bridge, &system, &memory, clock);
                 waitForEnter();
                 clock = !clock;
             }
