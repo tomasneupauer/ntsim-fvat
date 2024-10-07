@@ -1,6 +1,7 @@
 #ifndef MEMORY_HPP
 #define MEMORY_HPP
 
+#include <cstring>
 #include "globals.hpp"
 #include "control.hpp"
 using namespace std;
@@ -18,8 +19,10 @@ class Memory{
 
         void reallocateMemory (long_addr_t address){
             if (address >= memorySize){
+                size_t oldSize = memorySize;
                 memorySize = (address / MEMORY_ALIGN + 1) * MEMORY_ALIGN;
                 randomAccessMemory = (byte_t*)realloc(randomAccessMemory, memorySize);
+                memset(randomAccessMemory + oldSize, 0, memorySize - oldSize);
             }
         }
 
@@ -84,7 +87,7 @@ class Memory{
         }
 
         byte_t getMemoryBank(){
-            return memorySize;
+            return memoryBank;
         }
 
         byte_t getExecutionBank(){
