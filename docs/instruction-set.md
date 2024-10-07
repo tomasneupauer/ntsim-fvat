@@ -30,14 +30,14 @@
 
 - Description:
 - Assembly:
-  - `LDW    S (reg)`
-  - `LDW    A (imm16)   S (reg)`
+  - `LDW    T (reg)`
+  - `LDW    A (imm16)   T (reg)`
 - Byte order:
-  - `00100SSS`
-  - `00101SSS AAAAAAAA AAAAAAAA`
+  - `00100TTT`
+  - `00101TTT AAAAAAAA AAAAAAAA`
 - Function:
-  - `RAM[GH] -> GPR[S]`
-  - `RAM[A} -> GPR[S]`
+  - `RAM[GH] -> GPR[T]`
+  - `RAM[A} -> GPR[T]`
 
 ## PSH - Stack push
 
@@ -56,14 +56,14 @@
 
 - Description:
 - Assembly:
-  - `POP    S (reg)`
-  - `POP    S (reg)`
+  - `POP    T (reg)`
+  - `POP    T (reg)`
 - Byte order:
-  - `01000SSS`
-  - `01001SSS`
+  - `01000TTT`
+  - `01001TTT`
 - Function:
-  - `RAM[--SP] -> GPR[S]`
-  - `RAM[--SP] -> GPR[S]`
+  - `RAM[--SP] -> GPR[T]`
+  - `RAM[--SP] -> GPR[T]`
 
 ## PIN - Port in
 
@@ -75,43 +75,73 @@
   - `01010SSS 01010TTT`
   - `01011TTT DDDDDDDD`
 - Function:
-  - `PORT[S] -> GPR[T]`
-  - `PORT[D] -> GPR[T]`
+  - `DEV[S] -> GPR[T]`
+  - `DEV[D] -> GPR[T]`
 
 ## PUT - Port out
 
 - Description:
 - Assembly:
+  - `PUT    S (reg)     T (reg)`
+  - `PUT    S (reg)     D (imm8)`
 - Byte order:
+  - `01100TTT 01100SSS`
+  - `01101SSS DDDDDDDD`
 - Function:
+  - `GPR[S] -> DEV[T]`
+  - `GPR[S] -> DEV[D]`
 
 ## JNZ - Jump if not zero
 
 - Description:
 - Assembly:
+  - ``
+  - ``
 - Byte order:
+  - ``
+  - ``
 - Function:
+  - ``
+  - ``
 
 ## HNZ - Halt if not zero
 
 - Description:
 - Assembly:
+  - ``
+  - ``
 - Byte order:
+  - ``
+  - ``
 - Function:
+  - ``
+  - ``
 
 ## CMP - Compare words
 
 - Description:
 - Assembly:
+  - ``
+  - ``
 - Byte order:
+  - ``
+  - ``
 - Function:
+  - ``
+  - ``
 
 ## AND - Bitwise AND
 
 - Description:
 - Assembly:
+  - ``
+  - ``
 - Byte order:
+  - ``
+  - ``
 - Function:
+  - ``
+  - ``
 
 ## ORR - Bitwise OR
 
