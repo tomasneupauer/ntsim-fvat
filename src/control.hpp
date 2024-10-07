@@ -45,6 +45,10 @@ class Control{
             return find(set->begin(), set->end(), name) - set->begin();
         }
 
+        long_addr_t longAddress(byte_t memoryBank){
+            return ((long_addr_t)memoryBank & 0x7f) << 16 | memoryAddressRegister;
+        }
+
         signal_t signalValue(string name){
             int index = signalIndex(&SIGNALS, name);
             if (index < signals.size()){
