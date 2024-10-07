@@ -1,8 +1,6 @@
 #ifndef ASCII_RENDER_HPP
 #define ASCII_RENDER_HPP
 
-#include <vector>
-#include <string>
 #include "control.hpp"
 #include "bridge.hpp"
 #include "system.hpp"
@@ -13,14 +11,10 @@ using namespace std;
 #define MEMORY_ROWS 8
 #define MEMORY_COLS 8
 
-vector<string> staticLines = {
-    "\e[2J",
-    "         Addr              Program            Addr              Memory",
-    "     |----------|-------------------------|----------|-------------------------|",
-};
-
 void formatMemory(Control *control, Memory *memory){
     int memoryCells = MEMORY_ROWS * MEMORY_COLS;
+    printf("         Addr              Program            Addr              Memory\n");
+    printf("     |----------|-------------------------|----------|-------------------------|\n");
     long_addr_t currentProgramAddress = control->longAddress(memory->getExecutionBank());
     long_addr_t currentMemoryAddress = control->longAddress(memory->getMemoryBank());
     long_addr_t programIterator = currentProgramAddress / memoryCells * memoryCells;
@@ -50,12 +44,11 @@ void formatMemory(Control *control, Memory *memory){
         }
         printf("|\n");
     }
+    printf("     |----------|-------------------------|----------|-------------------------|\n");
 }
 
 void updateAsciiRender(Control *control, Bridge *bridge, System *system, Memory *memory){
-    for (int i=0; i<3; i++){
-        cout << staticLines[i] << endl;
-    }
+    printf("\e[2J\e[H\n");
     formatMemory(control, memory);
 }
 
