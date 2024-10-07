@@ -17,8 +17,8 @@ class Control{
         int signalState;
 
         void resetBuses(){
-            dataBus = -1;
-            addressBus = -1;
+            dataBus = 0;
+            addressBus = 0;
         }
 
         void updateSignals(){

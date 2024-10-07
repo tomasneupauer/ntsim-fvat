@@ -23,51 +23,50 @@ class System{
             registerY = 0;
         }
 
-        int getCarryFlag(){
+        signal_t getCarryIn(){
             return generalPurposeRegisters[5] & 0x01;
+        }
+
+        signal_t getCarryOut(byte_t opcode){
+            switch (opcode >> 4){
+                case 13:
+                    return registerY & 0x01;
+                case 14:
+                    return (registerX + registerY + getCarryIn()) > 255;
+                case 15:
+                    return (registerX - registerY + getCarryIn()) >= 0;
+            }
+            return 0;
+        }
+
+        byte_t getRegisterZ(byte_t opcode){
+            switch (opcode >> 4){
+                case 10:
+                    return  registerX & registerY;
+                case 11:
+                    return registerX | registerY;
+                case 12:
+                    return ~(registerX | registerY);
+                case 13:
+                    return registerY >> 1 | getCarryIn() << 7;
+                case 14:
+                    return registerX + registerY + getCarryIn();
+                case 15:
+                    return registerX - registerY + getCarryIn();
+            }
+            return registerX;
         }
 
         void onLowStepClock(Control *control){
             if (control->signalValue("EZ")){
-                int selector = control->getOpcode() >> 4;
-                byte_t registerZ = registerX;
-                switch (selector){
-                    case 10:
-                        registerZ = registerX & registerY;
-                        break;
-                    case 11:
-                        registerZ = registerX | registerY;
-                        break;
-                    case 12:
-                        registerZ = ~(registerX | registerY);
-                        break;
-                    case 13:
-                        registerZ = registerY >> 1 | getCarryFlag() << 7;
-                        break;
-                    case 14:
-                        registerZ = registerX + registerY + getCarryFlag();
-                        break;
-                    case 15:
-                        registerZ = registerX - registerY + getCarryFlag();
-                        break;
-                }
-                control->setDataBus(registerZ);
+                control->setDataBus(getRegisterZ(control->getOpcode()));
             }
             if (control->signalValue("EF")){
-                int selector = control->getOpcode() >> 4;
-                byte_t flags = (registerX > registerY) << 1 | (registerX < registerY) << 2 | (registerX == registerY) << 3;
-                switch (selector){
-                    case 13:
-                        flags |= registerY & 0x01;
-                        break;
-                    case 14:
-                        flags |= (registerX + registerY + getCarryFlag()) > 255;
-                        break;
-                    case 15:
-                        flags |= (registerX - registerY + getCarryFlag()) >= 0;
-                        break;
-                }
-                control->setDataBus(flags);
+                byte_t carry = getCarryOut(control->getOpcode());
+                byte_t greater = (registerX > registerY) << 1;
+                byte_t less = (registerX < registerY) << 2;
+                byte_t equal = (registerX == registerY) << 3;
+                control->setDataBus(equal | less | greater | carry);
             }
             if (control->signalValue("ER")){
                 int selector = control->getOpcode() & 0x07;

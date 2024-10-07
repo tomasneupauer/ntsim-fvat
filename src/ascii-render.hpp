@@ -9,8 +9,10 @@
 #include "globals.hpp"
 using namespace std;
 
-#define ROW_PADDING 5
+#define MEMORY_PADDING 5
+#define SYSTEM_PADDING 10
 #define BUS_PADDING 14
+#define ROW_PADDING 5
 #define MEMORY_ROWS 8
 #define MEMORY_COLS 8
 #define MEMORY_CELLS (MEMORY_ROWS * MEMORY_COLS)
@@ -71,7 +73,7 @@ void formatMemory(Control *control, Memory *memory){
         printf("|\n");
     }
     padLine(ROW_PADDING);
-    printf("|----------|-------------------------|----------|-------------------------|\n");
+    printf("|----------|-------------------------|----------|-------------------------|\n\n");
 }
 
 void formatTopSegment(Control *control, System *system, bool clock){
@@ -122,15 +124,54 @@ void formatTopSegment(Control *control, System *system, bool clock){
     padLine(2*ROW_PADDING);
     printf("|-------------------|");
     padLine(BUS_PADDING);
-    printf("|-----------------------|----|\n");
+    printf("|-----------------------|----|\n\n");
+}
+
+void formatMiddleSegment(Control *control, System *system){
+    byte_t opcode = control->getOpcode();
+    byte_t data = control->getDataBus();
+    padLine(SYSTEM_PADDING);
+    printf("       A-L Unit      ");
+    padLine(BUS_PADDING);
+    printf("            Buses\n");
+    padLine(SYSTEM_PADDING);
+    printf("|---------|---------|");
+    padLine(BUS_PADDING);
+    printf("|----------------------------|\n");
+    padLine(SYSTEM_PADDING);
+    printf("| X  0x%02X |   i %d   |", system->getRegisterX(), system->getCarryIn());
+    padLine(BUS_PADDING);
+    printf("| ADDRESS   0x%04X           |\n", control->getAddressBus());
+    padLine(SYSTEM_PADDING);
+    printf("| Y  0x%02X |   o %d   |", system->getRegisterY(), system->getCarryOut(opcode));
+    padLine(BUS_PADDING);
+    printf("| OP CODE   0b%s  0x%02X |\n", bitset<8>(opcode).to_string().c_str(), opcode);
+    padLine(SYSTEM_PADDING);
+    string instrName = (opcode >> 4 > 8 ? INSTRUCTIONS[opcode >> 4] : "XXX");
+    printf("| Z  0x%02X |   %s   |", system->getRegisterZ(opcode), instrName.c_str());
+    padLine(BUS_PADDING);
+    printf("| DATA      0b%s  0x%02X |\n", bitset<8>(data).to_string().c_str(), data);
+    padLine(SYSTEM_PADDING);
+    printf("|---------|---------|");
+    padLine(BUS_PADDING);
+    printf("|----------------------------|\n");
+    padLine(SYSTEM_PADDING);
+    printf("| %s   %s   ", toggle(control, "LX").c_str(), toggle(control, "LY").c_str());
+    printf("%s   %s |", toggle(control, "EZ").c_str(), toggle(control, "EF").c_str());
+    padLine(BUS_PADDING);
+    printf("|   %s  %s  %s  ", toggle(control, "RI").c_str(), toggle(control, "RO").c_str(), toggle(control, "MO").c_str());
+    printf("%s  %s  %s   |\n", toggle(control, "PI").c_str(), toggle(control, "PO").c_str(), toggle(control, "SE").c_str());
+    padLine(SYSTEM_PADDING);
+    printf("|-------------------|");
+    padLine(BUS_PADDING);
+    printf("|----------------------------|\n\n");
 }
 
 void updateAsciiRender(Control *control, Bridge *bridge, System *system, Memory *memory, bool clock){
     printf("\e[2J\e[H\n");
     formatMemory(control, memory);
-    printf("\n\n");
     formatTopSegment(control, system, clock);
-    printf("\n\n");
+    formatMiddleSegment(control, system);
 }
 
 void waitForEnter(){
