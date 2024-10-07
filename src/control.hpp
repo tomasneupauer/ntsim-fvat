@@ -106,7 +106,6 @@ class Control{
 
         int branchSignals(){
             if (dataBus != 0){
-                cout << "nz" << endl;
                 if (signalState == 114 || signalState == 123){
                     signals[signalIndex(&SIGNALS, "AR")] = 1;
                     signals[signalIndex(&SIGNALS, "RC")] = 1;

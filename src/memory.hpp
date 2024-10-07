@@ -16,6 +16,8 @@ class Memory{
         size_t videoSize;
         byte_t memoryBank;
         byte_t executionBank;
+        long_addr_t lastMemoryAddress;
+        long_addr_t lastProgramAddress;
 
         void reallocateMemory (long_addr_t address){
             if (address >= memorySize){
@@ -37,6 +39,8 @@ class Memory{
             videoMemory = (byte_t*)malloc(videoSize*sizeof(byte_t));
             memoryBank = 0;
             executionBank = 0;
+            lastMemoryAddress = 0;
+            lastProgramAddress = 0;
         }
 
         byte_t readRandomAccessMemory(long_addr_t address){
@@ -50,10 +54,12 @@ class Memory{
             if (control->signalValue("RO")){
                 long_addr_t address = control->longAddress(memoryBank);
                 control->setDataBus(readRandomAccessMemory(address));
+                lastMemoryAddress = address;
             }
             if (control->signalValue("MO")){
                 long_addr_t address = control->longAddress(executionBank);
                 control->setDataBus(readRandomAccessMemory(address));
+                lastProgramAddress = address;
             }
             if (control->signalValue("EB")){
                 if (control->signalValue("SE")){
@@ -74,6 +80,7 @@ class Memory{
                 else {
                     reallocateMemory(address);
                     randomAccessMemory[address] = control->getDataBus();
+                    lastMemoryAddress = address;
                 }
             }
             if (control->signalValue("LB")){
@@ -86,12 +93,12 @@ class Memory{
             }
         }
 
-        byte_t getMemoryBank(){
-            return memoryBank;
+        long_addr_t getLastMemoryAddress(){
+            return lastMemoryAddress;
         }
 
-        byte_t getExecutionBank(){
-            return executionBank;
+        long_addr_t getLastProgramAddress(){
+            return lastProgramAddress;
         }
 
         void dumpMemory(){
