@@ -12,7 +12,7 @@ typedef unsigned int long_addr_t;
 typedef bool signal_t;
 typedef int bus_t;
 
-vector<string> INSTRUCTIONS = {"MVW", "LDW", "STW", "PSH", "POP", "INB", "OUB", "JNZ", "HNZ", "CMP", "AND", "ORR", "NOR", "SFR", "ADC", "SBB"};
+vector<string> INSTRUCTIONS = {"MVW", "LDW", "STW", "PSH", "POP", "PIN", "PUT", "JNZ", "HNZ", "CMP", "AND", "ORR", "NOR", "SFR", "ADC", "SBB"};
 
 vector<string> SIGNALS = {"LX", "LY", "LR", "LF", "LG", "LH", "LM", "LI", "LP", "EZ", "EF", "ER", "AR", "AC", "AS", "RC", "IC", "IS", "DS", "PI", "PO", "RI", "RO", "MO", "XT"};
 

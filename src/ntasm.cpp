@@ -1,16 +1,11 @@
 #include <iostream>
 #include <cstdio>
 #include <cstring>
+#include "globals.hpp"
 using namespace std;
 
-const char *INSTRUCTIONS[16] = {"MVW", "LDW", "STW", "PSH", "POP", "INB", "OUB", "JNZ", "HNZ", "CMP", "AND", "ORR", "NOR", "SFR", "ADC", "SBB"};
-
 int instr_opcode(char *instr){
-    int opc = 0;
-    while (strcmp(instr, INSTRUCTIONS[opc]) && opc < 16){
-        opc++;
-    }
-    return opc;
+    return find(INSTRUCTIONS.begin(), INSTRUCTIONS.end(), (string)instr) - INSTRUCTIONS.begin();
 }
 
 int next_token(FILE *fp, char *token){
@@ -38,19 +33,19 @@ int assemble(FILE *infp, FILE *oufp){
     char arg_b[8];
     while (next_token(infp, instr)){
         int opcode = instr_opcode(instr);
-        if (opcode == 0 || opcode == 5 || opcode == 6){
+        if (opcode == 0 || opcode == 5 || opcode == 6 || opcode >= 9 && opcode <= 15){
             next_token(infp, arg_a);
             next_token(infp, arg_b);
-            if (strlen(arg_a) == 1){
-                write_instr(oufp, opcode, arg_a[0], 'R');
+            if (strlen(arg_b) == 1){
                 write_instr(oufp, opcode, arg_b[0], 'R');
+                write_instr(oufp, opcode, arg_a[0], 'R');
             }
             else {
-                write_instr(oufp, opcode, arg_b[0], 'I');
-                write_imm8(oufp, arg_a);
+                write_instr(oufp, opcode, arg_a[0], 'I');
+                write_imm8(oufp, arg_b);
             }
         }
-        if (opcode == 1 || opcode == 2){
+        else if (opcode == 1 || opcode == 2){
             next_token(infp, arg_a);
             if (strlen(arg_a) == 1){
                 write_instr(oufp, opcode, arg_a[0], 'R');
@@ -71,26 +66,11 @@ int assemble(FILE *infp, FILE *oufp){
                 write_imm8(oufp, arg_a);
             }
         }
-        else if (opcode >= 9 && opcode <= 15){
-            next_token(infp, arg_a);
-            next_token(infp, arg_b);
-            if (strlen(arg_b) == 1){
-                write_instr(oufp, opcode, arg_b[0], 'R');
-                write_instr(oufp, opcode, arg_a[0], 'R');
-            }
-            else {
-                write_instr(oufp, opcode, arg_a[0], 'I');
-                write_imm8(oufp, arg_b);
-            }
-        }
     }
     return 0;
 }
 
 int main(int argc, char **argv){
-    //char name[256];
-    //char out[256];
-    //scanf("%s%s", name, out);
     FILE *asm_fp = fopen(argv[1], "r");
     FILE *ebf_fp = fopen(argv[2], "w");
     char version[16];

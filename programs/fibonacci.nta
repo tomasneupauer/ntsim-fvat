@@ -7,8 +7,8 @@ MVW     0x01    B
 MVW     0x02    E
 MVW     0x00    G
 MVW     0x01    H
-OUB     0x02    A
-OUB     0x03    E
+PUT     0x02    A
+PUT     0x03    E
 PSH     G
 POP     G
 MVW     0x01    H
