@@ -16,10 +16,6 @@ class Memory{
         byte_t memoryBank;
         byte_t executionBank;
 
-        long_addr_t longAddress(addr_t memoryAddress, byte_t bankByte){
-            return ((long_addr_t)bankByte & 0x7f) << 16 | memoryAddress;
-        }
-
         void reallocateMemory (long_addr_t address){
             if (address >= memorySize){
                 memorySize = (address / MEMORY_ALIGN + 1) * MEMORY_ALIGN;
@@ -40,24 +36,21 @@ class Memory{
             executionBank = 0;
         }
 
+        byte_t readRandomAccessMemory(long_addr_t address){
+            if (address < memorySize){
+                return randomAccessMemory[address];
+            }
+            return 0;
+        }
+
         void onLowStepClock(Control *control){
             if (control->signalValue("RO")){
-                long_addr_t address = longAddress(control->getMemoryAddress(), memoryBank);
-                if (address < memorySize){
-                    control->setDataBus(randomAccessMemory[address]);
-                }
-                else{
-                    control->setDataBus(0);
-                }
+                long_addr_t address = control->longAddress(memoryBank);
+                control->setDataBus(readRandomAccessMemory(address));
             }
             if (control->signalValue("MO")){
-                long_addr_t address = longAddress(control->getMemoryAddress(), executionBank);
-                if (address < memorySize){
-                    control->setDataBus(randomAccessMemory[address]);
-                }
-                else{
-                    control->setDataBus(0);
-                }
+                long_addr_t address = control->longAddress(executionBank);
+                control->setDataBus(readRandomAccessMemory(address));
             }
             if (control->signalValue("EB")){
                 if (control->signalValue("SE")){
@@ -88,6 +81,14 @@ class Memory{
                     memoryBank = control->getDataBus();
                 }
             }
+        }
+
+        byte_t getMemoryBank(){
+            return memorySize;
+        }
+
+        byte_t getExecutionBank(){
+            return executionBank;
         }
 
         void dumpMemory(){
