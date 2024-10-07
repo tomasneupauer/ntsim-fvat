@@ -2,29 +2,29 @@ nta-v1.0
 FIBONACCI
 TOMAS NEUPAUER
 
-MVW     0x00    A
-MVW     0x01    B
-MVW     0x02    E
-MVW     0x00    G
-MVW     0x01    H
-PUT     0x02    A
-PUT     0x03    E
+MVW     A       0x00
+MVW     B       0x01
+MVW     E       0x02
+MVW     G       0x00
+MVW     H       0x01
+PUT     A       0x02
+PUT     E       0x03
 PSH     G
 POP     G
-MVW     0x01    H
+MVW     H       0x01
 STW     B
-MVW     0x00    F
+MVW     F       0x00
 ADC     G       0x01
-MVW     0x00    F
+MVW     F       0x00
 ADC     A       B
 STW     A
-MVW     0x00    F
+MVW     F       0x00
 ADC     G       0x01
-MVW     0x00    F
+MVW     F       0x00
 ADC     B       A
 PSH     G
-MVW     0x0f    G
-MVW     0x00    H
+MVW     G       0x0f
+MVW     H       0x00
 JNZ     0x01
 HNZ     0x01
 
