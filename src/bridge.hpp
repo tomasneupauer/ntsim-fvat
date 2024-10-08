@@ -33,6 +33,10 @@ class Bridge{
             // port device input
         }
 
+        byte_t getPortRegister(){
+            return portRegister;
+        }
+
         void dumpBridge(){
             printf("PR - 0x%02X\n", portRegister);
         }

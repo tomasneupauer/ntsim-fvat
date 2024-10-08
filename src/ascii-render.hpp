@@ -167,11 +167,41 @@ void formatMiddleSegment(Control *control, System *system){
     printf("|----------------------------|\n\n");
 }
 
+void formatBottomSegment(Control *control, Bridge *bridge, System *system, Memory *memory){
+    padLine(SYSTEM_PADDING);
+    printf("        Banks        ");
+    padLine(BUS_PADDING);
+    printf("           Pointers\n");
+    padLine(SYSTEM_PADDING);
+    printf("|----------|--------|");
+    padLine(BUS_PADDING);
+    printf("|-----------|----------------|\n");
+    padLine(SYSTEM_PADDING);
+    printf("| MB  0x%02X |   %s   |", memory->getMemoryBank(), toggle(control, "LB").c_str());
+    padLine(BUS_PADDING);
+    printf("| PC 0x%04X | %s %s", system->getProgramCounter(), toggle(control, "IC").c_str(), toggle(control, "RC").c_str());
+    printf(" %s %s %s |\n", toggle(control, "LC").c_str(), toggle(control, "EC").c_str(), toggle(control, "AC").c_str());
+    padLine(SYSTEM_PADDING);
+    printf("| EB  0x%02X |   %s   |", memory->getExecutionBank(), toggle(control, "EB").c_str());
+    padLine(BUS_PADDING);
+    printf("|-----------|----------------|\n");
+    padLine(SYSTEM_PADDING);
+    printf("| PR  0x%02X |   %s   |", bridge->getPortRegister(), toggle(control, "LP").c_str());
+    padLine(BUS_PADDING);
+    printf("| SP 0x%04X | %s %s", system->getStackPointer(), toggle(control, "IS").c_str(), toggle(control, "DS").c_str());
+    printf(" %s %s %s |\n", toggle(control, "LS").c_str(), toggle(control, "ES").c_str(), toggle(control, "AS").c_str());
+    padLine(SYSTEM_PADDING);
+    printf("|----------|--------|");
+    padLine(BUS_PADDING);
+    printf("|-----------|----------------|\n\n");
+}
+
 void updateAsciiRender(Control *control, Bridge *bridge, System *system, Memory *memory, bool clock){
     printf("\e[2J\e[H\n");
     formatMemory(control, memory);
     formatTopSegment(control, system, clock);
     formatMiddleSegment(control, system);
+    formatBottomSegment(control, bridge, system, memory);
 }
 
 void waitForEnter(){

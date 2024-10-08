@@ -101,6 +101,14 @@ class Memory{
             return lastProgramAddress;
         }
 
+        byte_t getMemoryBank(){
+            return memoryBank;
+        }
+
+        byte_t getExecutionBank(){
+            return executionBank;
+        }
+
         void dumpMemory(){
             for (int i=0; i<memorySize; i++){
                 printf("%02X ", randomAccessMemory[i]);
