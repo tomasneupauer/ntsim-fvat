@@ -2,29 +2,29 @@ nta-v1.0
 FIBONACCI
 TOMAS NEUPAUER
 
-MVW     A       0x00
+MVW     A       0x00          // initialization
 MVW     B       0x01
 MVW     E       0x02
 MVW     G       0x00
 MVW     H       0x01
 PUT     A       0x02
 PUT     E       0x03
-PSH     G
+PSH     G                     // start of infinite cycle
 POP     G
 MVW     H       0x01
 STW     B
 MVW     F       0x00
 ADC     G       0x01
 MVW     F       0x00
-ADC     A       B
+ADC     A       B             // adding B to A
 STW     A
 MVW     F       0x00
 ADC     G       0x01
 MVW     F       0x00
-ADC     B       A
+ADC     B       A             // adding A to B
 PSH     G
 MVW     G       0x0f
 MVW     H       0x00
-JNZ     0x01
+JNZ     0x01                  // jump to start of cycle
 HNZ     0x01
 
