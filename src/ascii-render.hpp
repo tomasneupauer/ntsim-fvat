@@ -25,14 +25,14 @@ void padLine(int padding){
 
 string toggle(Control *control, string signal){
     if (control->signalValue(signal)){
-        return "\e[1;32m" + signal + "\e[0m";
+        return "\e[7m\e[1;32m" + signal + "\e[0m";
     }
     return signal;
 }
 
 string toggleFlag(string flag, bool toggled){
     if (toggled){
-        return "\e[1;31m" + flag + "\e[0m";
+        return "\e[7m\e[1;31m" + flag + "\e[0m";
     }
     return flag;
 }
