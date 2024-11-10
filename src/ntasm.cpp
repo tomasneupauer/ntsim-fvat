@@ -5,7 +5,7 @@
 using namespace std;
 
 int instr_opcode(char *instr){
-    return find(INSTRUCTIONS.begin(), INSTRUCTIONS.end(), (string)instr) - INSTRUCTIONS.begin();
+    return signalIndex(&INSTRUCTIONS, (string)instr);
 }
 
 int next_token(FILE *fp, char *token){
@@ -33,7 +33,7 @@ int assemble(FILE *infp, FILE *oufp){
     char arg_b[8];
     while (next_token(infp, instr)){
         int opcode = instr_opcode(instr);
-        if (opcode == 0 || opcode == 5 || opcode == 6 || opcode >= 9 && opcode <= 15){
+        if (opcode == 0 || opcode == 5 || opcode == 6 || (opcode >= 9 && opcode <= 15)){
             next_token(infp, arg_a);
             next_token(infp, arg_b);
             if (strlen(arg_b) == 1){

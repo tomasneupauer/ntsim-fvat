@@ -22,9 +22,9 @@ class Control{
         }
 
         void updateSignals(){
-            signalState = instructionRegister & 0xf8 | stepCounter & 0x07;
-            for (int i=0; i<signals.size(); i++){
-                signals[i] = find(MICROCODE[i].begin(), MICROCODE[i].end(), signalState) != MICROCODE[i].end();
+            signalState = (instructionRegister & 0xf8) | (stepCounter & 0x07);
+            for (size_t i=0; i<signals.size(); i++){
+                signals[i] = translateState(&MICROCODE[i], signalState);
             }
         }
 
@@ -41,16 +41,12 @@ class Control{
             signalState = 0;
         }
 
-        int signalIndex(vector<string> *set, string name){
-            return find(set->begin(), set->end(), name) - set->begin();
-        }
-
-        long_addr_t longAddress(byte_t memoryBank){
+        int longAddress(byte_t memoryBank){
             return ((long_addr_t)memoryBank & 0x7f) << 16 | memoryAddressRegister;
         }
 
-        signal_t signalValue(string name){
-            int index = signalIndex(&SIGNALS, name);
+        int signalValue(string name){
+            size_t index = signalIndex(&SIGNALS, name);
             if (index < signals.size()){
                 return signals[index];
             }
@@ -62,7 +58,7 @@ class Control{
         }
 
         void setInterruptFlag(string flag){
-            int index = signalIndex(&INTERRUPTS, flag);
+            size_t index = signalIndex(&INTERRUPTS, flag);
             if (index < INTERRUPTS.size()){
                 interruptFlags |= 0x01 << index;
             }
@@ -72,7 +68,7 @@ class Control{
             dataBus = data;
         }
 
-        byte_t getDataBus(){
+        int getDataBus(){
             return dataBus;
         }
 
@@ -80,7 +76,7 @@ class Control{
             addressBus = address;
         }
 
-        addr_t getAddressBus(){
+        int getAddressBus(){
             return addressBus;
         }
 
@@ -145,13 +141,13 @@ class Control{
 
         void dumpControl(){
             cout << "SIGNALS - ";
-            for (int i=0; i<signals.size(); i++){
+            for (size_t i=0; i<signals.size(); i++){
                 if (signals[i]){
                     cout << SIGNALS[i] << ' ';
                 }
             }
             cout << "\nPORT SIGNALS - ";
-            for (int i=0; i<portSignals.size(); i++){
+            for (size_t i=0; i<portSignals.size(); i++){
                 if (portSignals[i]){
                     cout << PORT_SIGNALS[i] << ' ';
                 }

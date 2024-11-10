@@ -23,11 +23,11 @@ class System{
             registerY = 0;
         }
 
-        signal_t getCarryIn(){
+        int getCarryIn(){
             return generalPurposeRegisters[5] & 0x01;
         }
 
-        signal_t getCarryOut(byte_t opcode){
+        int getCarryOut(byte_t opcode){
             switch (opcode >> 4){
                 case 13:
                     return registerY & 0x01;
@@ -39,7 +39,7 @@ class System{
             return 0;
         }
 
-        byte_t getRegisterZ(byte_t opcode){
+        int getRegisterZ(byte_t opcode){
             switch (opcode >> 4){
                 case 10:
                     return  registerX & registerY;
@@ -143,39 +143,39 @@ class System{
             }
             if (control->signalValue("LC")){
                 if (control->signalValue("SE")){
-                    programCounter = programCounter & 0x00ff | (addr_t)control->getDataBus() << 8;
+                    programCounter = (programCounter & 0x00ff) | (addr_t)control->getDataBus() << 8;
                 }
                 else {
-                    programCounter = programCounter & 0xff00 | control->getDataBus();
+                    programCounter = (programCounter & 0xff00) | control->getDataBus();
                 }
             }
             if (control->signalValue("LS")){
                 if (control->signalValue("SE")){
-                    stackPointer = stackPointer & 0x00ff | (addr_t)control->getDataBus() << 8;
+                    stackPointer = (stackPointer & 0x00ff) | (addr_t)control->getDataBus() << 8;
                 }
                 else {
-                    stackPointer = stackPointer & 0xff00 | control->getDataBus();
+                    stackPointer = (stackPointer & 0xff00) | control->getDataBus();
                 }
             }
         }
 
-        byte_t getRegister(int selector){
+        int getRegister(int selector){
             return generalPurposeRegisters[selector];
         }
 
-        byte_t getRegisterX(){
+        int getRegisterX(){
             return registerX;
         }
 
-        byte_t getRegisterY(){
+        int getRegisterY(){
             return registerY;
         }
 
-        addr_t getProgramCounter(){
+        int getProgramCounter(){
             return programCounter;
         }
 
-        addr_t getStackPointer(){
+        int getStackPointer(){
             return stackPointer;
         }
 
