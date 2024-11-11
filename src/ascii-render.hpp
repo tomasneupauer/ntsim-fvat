@@ -37,7 +37,7 @@ string toggleFlag(string flag, bool toggled){
     return flag;
 }
 
-void formatMemory(Control *control, Memory *memory){
+void formatMemory(Memory *memory){
     padLine(MEMORY_PADDING);
     printf("    Addr              Program            Addr              Memory\n");
     padLine(MEMORY_PADDING);
@@ -222,7 +222,7 @@ void formatBottomSegment(Control *control, Bridge *bridge, System *system, Memor
 
 void updateAsciiRender(Control *control, Bridge *bridge, System *system, Memory *memory, bool clock){
     printf("\e[2J\e[H\n");
-    formatMemory(control, memory);
+    formatMemory(memory);
     formatTopSegment(control, system, clock);
     formatMiddleSegment(control, system);
     formatBottomSegment(control, bridge, system, memory);

@@ -10,9 +10,9 @@ class Bridge{
         byte_t portRegister;
 
         void setPortSignals(vector<signal_t> *portSignals, signal_t portIn, signal_t portOut){
-            int portState = portIn << 4 | portOut << 3 | portRegister & 0x07;
-            for (int i=0; i<portSignals->size(); i++){
-                (*portSignals)[i] = find(LOOPBACK_TABLE[i].begin(), LOOPBACK_TABLE[i].end(), portState) != LOOPBACK_TABLE[i].end();
+            int portState = portIn << 4 | portOut << 3 | (portRegister & 0x07);
+            for (size_t i=0; i<portSignals->size(); i++){
+                (*portSignals)[i] = translateState(&LOOPBACK_TABLE[i], portState);
             }
         }
 
@@ -33,7 +33,7 @@ class Bridge{
             // port device input
         }
 
-        byte_t getPortRegister(){
+        int getPortRegister(){
             return portRegister;
         }
 

@@ -11,9 +11,9 @@ using namespace std;
 
 class StepEmulator{
     private:
+        Memory memory;
         Control control;
         Bridge bridge;
-        Memory memory;
         System system;
         bool clock;
 
@@ -44,10 +44,6 @@ class StepEmulator{
                     memory.onHighStepClock(&control);
                     system.onHighStepClock(&control);
                 }
-                cout << clock << endl;
-                control.dumpControl();
-                system.dumpSystem();
-                bridge.dumpBridge();
                 updateAsciiRender(&control, &bridge, &system, &memory, clock);
                 waitForEnter();
                 clock = !clock;

@@ -43,7 +43,7 @@ class Memory{
             lastProgramAddress = 0;
         }
 
-        byte_t readRandomAccessMemory(long_addr_t address){
+        int readRandomAccessMemory(long_addr_t address){
             if (address < memorySize){
                 return randomAccessMemory[address];
             }
@@ -110,7 +110,7 @@ class Memory{
         }
 
         void dumpMemory(){
-            for (int i=0; i<memorySize; i++){
+            for (size_t i=0; i<memorySize; i++){
                 printf("%02X ", randomAccessMemory[i]);
             }
             cout << endl;

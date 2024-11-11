@@ -58,5 +58,13 @@ vector<vector<int>> LOOPBACK_TABLE = {
     {9, 11, 13, 17, 19, 21}
 };
 
+int translateState(vector<int> *row, int state){
+    return find(row->begin(), row->end(), state) != row->end();
+}
+
+int signalIndex(vector<string> *set, string name){
+    return find(set->begin(), set->end(), name) - set->begin();
+}
+
 #endif
 
